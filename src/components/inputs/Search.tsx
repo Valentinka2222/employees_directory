@@ -6,7 +6,16 @@ import SortIcon from '@mui/icons-material/Sort';
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     borderRadius: '20px',
-    height: '40px',
+    height: '24px', // Set the overall height to 40px
+    padding: '0 14px', // Adjust padding as needed
+    display: 'flex',
+    alignItems: 'center',
+
+    '& input': {
+      height: '24px', // Set the input height to 24px
+      padding: '0', // Remove default padding
+    },
+
     '& fieldset': {
       borderColor: theme.palette.mode === 'light' ? '#E0E3E7' : '#2D3843',
     },
@@ -16,6 +25,9 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     '&.Mui-focused fieldset': {
       borderColor: theme.palette.primary.main,
     },
+  },
+  '& .MuiInputAdornment-root': {
+    height: '24px', // Adjust the height of the adornments
   },
 }));
 
@@ -35,7 +47,7 @@ const Search: React.FC = () => {
       fullWidth
       variant="outlined"
       size="small"
-      placeholder="Search..."
+      placeholder="Enter name, email, tag"
       value={searchTerm}
       onChange={handleChange}
       InputProps={{

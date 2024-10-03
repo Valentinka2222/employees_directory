@@ -5,19 +5,19 @@ import { purple } from '@mui/material/colors';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2', 
+      main: '#1976d2',
     },
     secondary: {
-      main: purple[500], 
+      main: purple[500],
     },
     text: {
       primary: 'black',
-      secondary: 'rgba(0, 0, 0, 0.6)',
+      secondary: '#bdbdbd',
       disabled: 'rgba(0, 0, 0, 0.38)',
-    }
+    },
   },
   typography: {
-    fontFamily: 'Arial, sans-serif', 
+    fontFamily: 'Arial, sans-serif',
   },
 });
 export default theme;

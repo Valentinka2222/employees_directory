@@ -1,8 +1,9 @@
- import * as React from 'react';
+import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
+import { tab_names } from '../../data/tab';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -33,7 +34,30 @@ function a11yProps(index: number) {
   };
 }
 
-  
+const StyledTab = styled(Tab)(({ theme }) => ({
+  textTransform: 'none', // This removes the uppercase transformation
+  fontWeight: theme.typography.fontWeightRegular,
+  fontSize: theme.typography.pxToRem(15),
+  marginRight: theme.spacing(1),
+  '&.Mui-selected': {
+    fontWeight: theme.typography.fontWeightMedium,
+    color: theme.palette.text.primary,
+  },
+  '& .MuiTabs-flexContainer': {
+    justifyContent: 'space-between',
+  },
+  '& .css-yk2v1h-MuiTabs-root': {
+    height: '36px',
+  },
+  '& .MuiTab-root': {
+    color: theme.palette.text.secondary,
+    height: '36px',
+  },
+  '& .Mui-selected': {
+    color: theme.palette.text.primary,
+  },
+}));
+
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
@@ -45,37 +69,24 @@ export default function BasicTabs() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs 
-          value={value}         
+        <Tabs
+          value={value}
           indicatorColor="secondary"
           textColor="primary"
-          onChange={handleChange} 
+          onChange={handleChange}
           aria-label="basic tabs example"
-          variant="fullWidth"  
-          sx={{ 
-            '& .MuiTabs-flexContainer': {
-              justifyContent: 'space-between',
-            },
-            '& .MuiTab-root': {
-              color: theme.palette.text.primary, // This sets the text color to 'black' as defined in your theme
-              },
-  
-          }}
+          variant="fullWidth"
         >
-          <Tab label="Item One" {...a11yProps(0)} sx={{ flexGrow: 1 }} />
-          <Tab label="Item Two" {...a11yProps(1)} sx={{ flexGrow: 1 }} />
-          <Tab label="Item Three" {...a11yProps(2)} sx={{ flexGrow: 1 }} />
+          {tab_names.map((t: string, i: number) => (
+            <StyledTab key={i} label={t} {...a11yProps(i)} sx={{ flexGrow: 1 }} />
+          ))}
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
+      {tab_names.map((t: string, i: number) => (
+        <TabPanel key={i} value={value} index={i}>
+          {`Content for ${t}`}
+        </TabPanel>
+      ))}
     </Box>
   );
 }

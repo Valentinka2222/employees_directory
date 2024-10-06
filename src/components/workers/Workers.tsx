@@ -4,11 +4,12 @@ import { fetchWorkersAction } from '../../redux/reducer/workersReducer';
 import { RootState, AppDispatch } from '../../redux/store/store';
 
 import Avatar from '@mui/material/Avatar';
-import { useTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
-import { Typography, Box, Tabs, Tab } from '@mui/material';
+import { Typography, Box, Tabs, Tab, Link } from '@mui/material';
 import { tab_names } from '../../data/tab';
 import { Workers } from '../../entities/Workers';
+import ufo from '../../assets/ufo.png';
 
 const StyledTab = styled(Tab)(({ theme }) => ({
   textTransform: 'none',
@@ -48,7 +49,38 @@ const WorkersList: React.FC = () => {
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return (
+      <Box sx={{ textAlign: 'center', padding: 4 }}>
+        <img src={ufo} alt="Error occurred" style={{ width: '56px', height: '56px' }} />
+        <Typography
+          sx={{
+            fontFamily: 'Inter',
+            fontSize: '17px',
+            fontWeight: 600,
+            lineHeight: '22px',
+            color: 'text.primary',
+          }}
+          component="h5"
+        >
+          Unexpected error occurred...
+        </Typography>
+        <Typography
+          sx={{
+            fontFamily: 'Inter',
+            fontSize: '16px',
+            fontWeight: 400,
+            lineHeight: '20px',
+            color: 'rgba(151, 151, 155, 1)',
+          }}
+          component="h5"
+        >
+          Try again a bit later
+        </Typography>
+        <Link sx={{ color: ' rgba(101, 52, 255, 1)' }} href={window.location.href} underline="none">
+          Reload Page
+        </Link>
+      </Box>
+    );
   }
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: keyof typeof tab_names) => {
@@ -69,6 +101,7 @@ const WorkersList: React.FC = () => {
           value={currentTab}
           onChange={handleTabChange}
           aria-label="worker tabs"
+          sx={{ width: 'max-content' }}
         >
           {Object.keys(tab_names).map(tab => (
             <StyledTab key={tab} label={tab} value={tab} sx={{ flexGrow: 1 }} />

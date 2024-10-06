@@ -11,7 +11,7 @@ const theme = createTheme({
       main: purple[500],
     },
     text: {
-      primary: 'black',
+      primary: 'rgba(5, 5, 16, 1)',
       secondary: '#bdbdbd',
       disabled: 'rgba(0, 0, 0, 0.38)',
     },

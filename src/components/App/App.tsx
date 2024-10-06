@@ -3,6 +3,7 @@ import Search from '../inputs/Search';
 import TabPanel from '../tab/TabPanel';
 import theme from '../../theme';
 import { Box, Typography } from '@mui/material';
+import WorkersList from '../workers/Workers';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         </header>
         <main>
           <TabPanel />
+          <WorkersList />
         </main>
       </div>
     </ThemeProvider>

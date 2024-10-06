@@ -1,8 +1,8 @@
 import { ThemeProvider } from '@mui/material/styles';
-import Search from '../inputs/Search';
-import TabPanel from '../tab/TabPanel';
-import theme from '../../theme';
 import { Box, Typography } from '@mui/material';
+
+import Search from '../inputs/Search';
+import theme from '../../theme';
 import WorkersList from '../workers/Workers';
 
 export default function App() {
@@ -26,7 +26,6 @@ export default function App() {
           </Box>
         </header>
         <main>
-          <TabPanel />
           <WorkersList />
         </main>
       </div>

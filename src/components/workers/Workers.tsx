@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchWorkersAction } from '../../redux/reducer/workersReducer';
 import { RootState, AppDispatch } from '../../redux/store/store';
-
 import Avatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
@@ -11,28 +10,23 @@ import { tab_names } from '../../data/tab';
 import { Workers } from '../../entities/Workers';
 import ufo from '../../assets/ufo.png';
 
+// Styled components
 const StyledTab = styled(Tab)(({ theme }) => ({
   textTransform: 'none',
   fontWeight: theme.typography.fontWeightRegular,
   fontSize: theme.typography.pxToRem(15),
   marginRight: theme.spacing(1),
+  height: '36px',
+  color: theme.palette.text.secondary,
   '&.Mui-selected': {
     fontWeight: theme.typography.fontWeightMedium,
     color: theme.palette.text.primary,
   },
-  '& .MuiTabs-flexContainer': {
-    justifyContent: 'space-between',
-  },
-  '& .css-yk2v1h-MuiTabs-root': {
-    height: '36px',
-  },
-  '& .MuiTab-root': {
-    color: theme.palette.text.secondary,
-    height: '36px',
-  },
-  '& .Mui-selected': {
-    color: theme.palette.text.primary,
-  },
+}));
+
+const ErrorBox = styled(Box)(({ theme }) => ({
+  textAlign: 'center',
+  padding: theme.spacing(4),
 }));
 
 const WorkersList: React.FC = () => {
@@ -45,41 +39,27 @@ const WorkersList: React.FC = () => {
   }, [dispatch]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <Typography variant="h6" textAlign="center">
+        Loading...
+      </Typography>
+    );
   }
 
   if (error) {
     return (
-      <Box sx={{ textAlign: 'center', padding: 4 }}>
+      <ErrorBox>
         <img src={ufo} alt="Error occurred" style={{ width: '56px', height: '56px' }} />
-        <Typography
-          sx={{
-            fontFamily: 'Inter',
-            fontSize: '17px',
-            fontWeight: 600,
-            lineHeight: '22px',
-            color: 'text.primary',
-          }}
-          component="h5"
-        >
+        <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary' }}>
           Unexpected error occurred...
         </Typography>
-        <Typography
-          sx={{
-            fontFamily: 'Inter',
-            fontSize: '16px',
-            fontWeight: 400,
-            lineHeight: '20px',
-            color: 'rgba(151, 151, 155, 1)',
-          }}
-          component="h5"
-        >
-          Try again a bit later
+        <Typography variant="body1" color="text.secondary">
+          Try again a bit later.
         </Typography>
-        <Link sx={{ color: ' rgba(101, 52, 255, 1)' }} href={window.location.href} underline="none">
+        <Link href={window.location.href} underline="none" sx={{ color: 'rgba(101, 52, 255, 1)' }}>
           Reload Page
         </Link>
-      </Box>
+      </ErrorBox>
     );
   }
 
@@ -101,48 +81,30 @@ const WorkersList: React.FC = () => {
           value={currentTab}
           onChange={handleTabChange}
           aria-label="worker tabs"
-          sx={{ width: 'max-content' }}
         >
           {Object.keys(tab_names).map(tab => (
-            <StyledTab key={tab} label={tab} value={tab} sx={{ flexGrow: 1 }} />
+            <StyledTab key={tab} label={tab} value={tab} />
           ))}
         </Tabs>
       </Box>
       <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
         {filteredWorkers.map((worker: Workers) => (
           <Stack
-            sx={{ height: '80px' }}
             key={worker.id}
             direction="row"
             spacing={2}
             alignItems="center"
+            sx={{ height: '80px' }}
           >
             <Avatar sx={{ height: '72px', width: '72px' }} alt={worker.name} src={worker.avatar} />
             <Stack direction="column">
-              <Typography
-                sx={{
-                  fontFamily: 'Inter',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  lineHeight: '20px',
-                  textAlign: 'left',
-                  color: 'text.primary',
-                }}
-                variant="subtitle1"
-              >
+              <Typography variant="subtitle1" color="text.primary" sx={{ fontWeight: 500 }}>
                 {worker.name}{' '}
                 <Typography
                   component="span"
-                  sx={{
-                    fontFamily: 'Inter',
-                    fontSize: '13px',
-                    fontWeight: 400,
-                    lineHeight: '16px',
-                    textAlign: 'left',
-                    color: 'text.secondary',
-                    display: 'inline',
-                  }}
                   variant="body2"
+                  color="text.secondary"
+                  sx={{ fontWeight: 400 }}
                 >
                   {worker.tag}
                 </Typography>

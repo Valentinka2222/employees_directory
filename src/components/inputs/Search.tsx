@@ -1,70 +1,123 @@
 import React, { useState, ChangeEvent } from 'react';
-import { TextField, IconButton, InputAdornment, styled } from '@mui/material';
+import {
+  TextField,
+  IconButton,
+  InputAdornment,
+  Modal,
+  Box,
+  Radio,
+  FormControlLabel,
+  Typography,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
+import CloseIcon from '@mui/icons-material/Close';
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiOutlinedInput-root': {
-    borderRadius: '20px',
-    height: '24px', // Set the overall height to 40px
-    padding: '0 14px', // Adjust padding as needed
-    display: 'flex',
-    alignItems: 'center',
-
-    '& input': {
-      height: '24px', // Set the input height to 24px
-      padding: '0', // Remove default padding
-    },
-
-    '& fieldset': {
-      borderColor: theme.palette.mode === 'light' ? '#E0E3E7' : '#2D3843',
-    },
-    '&:hover fieldset': {
-      borderColor: theme.palette.mode === 'light' ? '#B2BAC2' : '#6F7E8C',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: theme.palette.primary.main,
-    },
-  },
-  '& .MuiInputAdornment-root': {
-    height: '24px', // Adjust the height of the adornments
-  },
-}));
+const style = {
+  position: 'absolute' as const,
+  display: 'flex',
+  flexDirection: 'column',
+  textAlign: 'center',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 2,
+  borderRadius: 4,
+  width: 373,
+  lineHeight: 60,
+  height: 192,
+};
 
 const Search: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isOpened, setIsOpened] = useState(false);
+  const [sortOrder, setSortOrder] = useState<string>('name');
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
   const handleClear = () => {
+    setIsOpened(!isOpened);
     setSearchTerm('');
   };
 
+  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSortOrder(event.target.value);
+  };
+
+  const handleClose = () => {
+    setIsOpened(false); // Close the modal
+  };
+
   return (
-    <StyledTextField
-      fullWidth
-      variant="outlined"
-      size="small"
-      placeholder="Enter name, email, tag"
-      value={searchTerm}
-      onChange={handleChange}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon />
-          </InputAdornment>
-        ),
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton onClick={handleClear} edge="end" size="small">
-              <SortIcon />
+    <>
+      <TextField
+        fullWidth
+        variant="outlined"
+        size="small"
+        placeholder="Enter name, email, tag"
+        value={searchTerm}
+        onChange={handleChange}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleClear} edge="end" size="small">
+                <SortIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      <Modal open={isOpened} onClose={handleClear}>
+        <Box sx={style}>
+          <Typography variant="h6" component="h2" mb={2}>
+            Sort Options
+            <IconButton
+              sx={{
+                position: 'absolute',
+                top: 20,
+                right: 8,
+              }}
+              onClick={handleClose}
+              size="small"
+            >
+              <CloseIcon />
             </IconButton>
-          </InputAdornment>
-        ),
-      }}
-    />
+          </Typography>
+          <FormControlLabel
+            control={
+              <Radio
+                checked={sortOrder === 'name'}
+                onChange={handleSortChange}
+                value="name"
+                name="sortOrder"
+              />
+            }
+            label="Sort by Name"
+          />
+          <FormControlLabel
+            control={
+              <Radio
+                checked={sortOrder === 'dateOfBirth'}
+                onChange={handleSortChange}
+                value="dateOfBirth"
+                name="sortOrder"
+              />
+            }
+            label="Sort by Date of Birth"
+          />
+        </Box>
+      </Modal>
+    </>
   );
 };
 

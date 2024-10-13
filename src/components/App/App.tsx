@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@mui/material/styles';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, CssBaseline } from '@mui/material';
 
 import Search from '../inputs/Search';
 import theme from '../../theme';
@@ -8,20 +8,11 @@ import WorkersList from '../workers/Workers';
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <div className="App">
         <header>
-          <Typography sx={{ height: '28px', margin: 'auto 24px', fontWeight: '700' }} variant="h5">
-            Search
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              height: '40px',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-            }}
-          >
+          <Typography variant="h5">Search</Typography>
+          <Box className="search-container">
             <Search />
           </Box>
         </header>

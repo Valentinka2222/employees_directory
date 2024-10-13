@@ -13,7 +13,7 @@ export const fetchWorkersAction = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await getAllWorkers();
-      console.log('Fetched workers data:', data);
+
       return data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch workers');

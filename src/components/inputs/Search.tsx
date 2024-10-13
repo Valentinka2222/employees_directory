@@ -13,6 +13,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { WorkersListProps } from '../../entities/Workers';
+import type { SortOrder } from '../../entities/Workers';
+
 const style = {
   position: 'absolute' as const,
   display: 'flex',
@@ -30,10 +33,9 @@ const style = {
   height: 192,
 };
 
-const Search: React.FC = () => {
+const Search: React.FC<WorkersListProps> = ({ sortOrder, setSortOrder }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isOpened, setIsOpened] = useState(false);
-  const [sortOrder, setSortOrder] = useState<string>('name');
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -45,11 +47,10 @@ const Search: React.FC = () => {
   };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSortOrder(event.target.value);
+    setSortOrder(event.target.value as SortOrder);
   };
-
   const handleClose = () => {
-    setIsOpened(false); // Close the modal
+    setIsOpened(false);
   };
 
   return (
@@ -107,9 +108,9 @@ const Search: React.FC = () => {
           <FormControlLabel
             control={
               <Radio
-                checked={sortOrder === 'dateOfBirth'}
+                checked={sortOrder === 'birthDate'}
                 onChange={handleSortChange}
-                value="dateOfBirth"
+                value="birthDate"
                 name="sortOrder"
               />
             }

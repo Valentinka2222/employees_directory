@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchWorkersAction } from '../../redux/reducer/workersReducer';
-import { RootState, AppDispatch } from '../../redux/store/store';
+
 import Avatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import { Typography, Box, Tabs, Tab, Link } from '@mui/material';
+import { fetchWorkersAction } from '../../redux/reducer/workersReducer';
+import { RootState, AppDispatch } from '../../redux/store/store';
 import { tab_names } from '../../data/tab';
-import { Workers } from '../../entities/Workers';
+import { SortOrder, Worker, Workers } from '../../entities/Workers';
+
 import ufo from '../../assets/ufo.png';
 
-// Styled components
+interface WorkersListProps {
+  sortOrder: SortOrder;
+}
+
 const StyledTab = styled(Tab)(({ theme }) => ({
   textTransform: 'none',
   fontWeight: theme.typography.fontWeightRegular,
@@ -29,10 +34,20 @@ const ErrorBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
 }));
 
-const WorkersList: React.FC = () => {
+const WorkersList: React.FC<WorkersListProps> = ({ sortOrder }) => {
   const dispatch: AppDispatch = useDispatch();
   const { workers, loading, error } = useSelector((state: RootState) => state.workers);
+
   const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('All');
+
+  const sortWorkers = (workers: Workers, sortOrder: SortOrder): Workers =>
+    [...workers].sort((a: Worker, b: Worker) =>
+      sortOrder === 'name'
+        ? a.name.localeCompare(b.name)
+        : new Date(a.birthDate).getTime() - new Date(b.birthDate).getTime(),
+    );
+
+  const sortedWorkers = sortWorkers(workers, sortOrder);
 
   useEffect(() => {
     dispatch(fetchWorkersAction());
@@ -67,8 +82,8 @@ const WorkersList: React.FC = () => {
     setCurrentTab(newValue);
   };
 
-  const filteredWorkers = workers.filter(
-    (worker: Workers) =>
+  const filteredWorkers = sortedWorkers.filter(
+    (worker: Worker) =>
       currentTab === 'All' || worker.position.toLowerCase() === tab_names[currentTab].toLowerCase(),
   );
 
@@ -83,12 +98,12 @@ const WorkersList: React.FC = () => {
           aria-label="worker tabs"
         >
           {Object.keys(tab_names).map(tab => (
-            <StyledTab key={tab} label={tab} value={tab} />
+            <StyledTab key={tab} label={tab} value={tab as keyof typeof tab_names} />
           ))}
         </Tabs>
       </Box>
       <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
-        {filteredWorkers.map((worker: Workers) => (
+        {filteredWorkers.map((worker: Worker) => (
           <Stack
             key={worker.id}
             direction="row"

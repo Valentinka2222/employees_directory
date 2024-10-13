@@ -1,16 +1,25 @@
-export interface Workers {
-  avatar: string;
-  email: string;
+// Define Worker interface
+export interface Worker {
   id: string;
   name: string;
+  avatar: string;
+  email: string;
   position: string;
-  birthday: number;
-  phone: string;
-  tag: string;
+  tag?: string;
+  birthDate: string;
 }
+
+export type Workers = Worker[];
 
 export interface WorkersState {
   loading: boolean;
-  workers: Workers[];
+  workers: Workers;
   error: string | null;
+}
+
+export type SortOrder = 'name' | 'birthDate';
+
+export interface WorkersListProps {
+  sortOrder: SortOrder;
+  setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
 }

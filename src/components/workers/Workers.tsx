@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
-import { Typography, Box, Tabs, Tab, Link } from '@mui/material';
+import { Typography, Box, Tabs, Tab, Link, Skeleton } from '@mui/material';
 import { fetchWorkersAction } from '../../redux/reducer/workersReducer';
 import { RootState, AppDispatch } from '../../redux/store/store';
 import { tab_names } from '../../data/tab';
@@ -95,8 +95,9 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
       currentTab === 'All' || worker.position.toLowerCase() === tab_names[currentTab].toLowerCase(),
   );
 
-  // Determine whether to show the error message for no workers found
   const showError = searchTerm && filteredWorkers.length === 0;
+
+  const skeletonArray = Array.from(new Array(6));
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -115,9 +116,17 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
       </Box>
 
       {loading && (
-        <Typography variant="h6" textAlign="center">
-          Loading...
-        </Typography>
+        <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
+          {skeletonArray.map((_, index) => (
+            <Stack key={index} direction="row" spacing={2} alignItems="center">
+              <Skeleton variant="circular" width={72} height={72} />
+              <Stack direction="column">
+                <Skeleton variant="text" width={150} height={28} />
+                <Skeleton variant="text" width={100} height={20} />
+              </Stack>
+            </Stack>
+          ))}
+        </Stack>
       )}
 
       {error && (

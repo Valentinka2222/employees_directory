@@ -142,14 +142,17 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
             Try again a bit later.
           </Typography>
           <Link
-            href={window.location.href}
+            onClick={() => {
+              dispatch(fetchWorkersAction());
+            }}
+            component="button"
             underline="none"
             sx={{
               color: 'rgba(101, 52, 255, 1)',
               margin: '0',
-
               lineHeight: '20px',
               fontWeight: '600',
+              cursor: 'pointer',
             }}
           >
             Reload Page

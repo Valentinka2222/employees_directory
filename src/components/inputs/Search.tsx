@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   TextField,
   IconButton,
@@ -13,6 +14,8 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import CloseIcon from '@mui/icons-material/Close';
+
+import { RootState } from '../../redux/store/store';
 
 import { WorkersListProps } from '../../entities/Workers';
 import type { SortOrder } from '../../entities/Workers';

@@ -12,6 +12,7 @@ import { tab_names } from '../../data/tab';
 import { SortOrder, Worker, Workers } from '../../entities/Workers';
 
 import ufo from '../../assets/ufo.png';
+import icon_search from '../../assets/icon_search.png';
 
 interface WorkersListProps {
   sortOrder: SortOrder;
@@ -35,6 +36,9 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 const ErrorBox = styled(Box)(({ theme }) => ({
   textAlign: 'center',
   padding: theme.spacing(4),
+
+  margin: 'auto',
+  marginTop: '149px',
 }));
 
 const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSearchTerm }) => {
@@ -47,7 +51,7 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
   const sortedWorkers = sortWorkers(workers, sortOrder);
 
   const filterAndSortWorkers = (workers: Workers, searchTerm: string): Workers => {
-    !searchTerm && sortedWorkers;
+    if (!searchTerm) return sortedWorkers; // No search term, return sorted workers as is
 
     const lowercasedSearchTerm = searchTerm.toLowerCase();
     return sortedWorkers.filter(
@@ -73,7 +77,6 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
     if (tabFromUrl && tab_names[tabFromUrl]) setCurrentTab(tabFromUrl);
   }, [location.search, setSearchTerm]);
 
-  // Effect to update URL with search term and tab
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
 
@@ -83,30 +86,6 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
     navigate(`${location.pathname}?${searchParams.toString()}`, { replace: true });
   }, [searchTerm, currentTab, navigate, location.pathname]);
 
-  loading && (
-    <Typography variant="h6" textAlign="center">
-      {' '}
-      Loading...
-    </Typography>
-  );
-
-  if (error) {
-    return (
-      <ErrorBox>
-        <img src={ufo} alt="Error occurred" style={{ width: '56px', height: '56px' }} />
-        <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary' }}>
-          Unexpected error occurred...
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Try again a bit later.
-        </Typography>
-        <Link href={window.location.href} underline="none" sx={{ color: 'rgba(101, 52, 255, 1)' }}>
-          Reload Page
-        </Link>
-      </ErrorBox>
-    );
-  }
-
   const handleTabChange = (event: React.SyntheticEvent, newValue: keyof typeof tab_names) => {
     setCurrentTab(newValue);
   };
@@ -115,6 +94,9 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
     (worker: Worker) =>
       currentTab === 'All' || worker.position.toLowerCase() === tab_names[currentTab].toLowerCase(),
   );
+
+  // Determine whether to show the error message for no workers found
+  const showError = searchTerm && filteredWorkers.length === 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -131,35 +113,91 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
           ))}
         </Tabs>
       </Box>
-      <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
-        {filteredWorkers.map((worker: Worker) => (
-          <Stack
-            key={worker.id}
-            direction="row"
-            spacing={2}
-            alignItems="center"
-            sx={{ height: '80px' }}
+
+      {loading && (
+        <Typography variant="h6" textAlign="center">
+          Loading...
+        </Typography>
+      )}
+
+      {error && (
+        <ErrorBox>
+          <img src={ufo} alt="Error occurred" style={{ width: '56px', height: '56px' }} />
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: 600, color: 'text.primary', marginBottom: '15px' }}
           >
-            <Avatar sx={{ height: '72px', width: '72px' }} alt={worker.name} src={worker.avatar} />
-            <Stack direction="column">
-              <Typography variant="subtitle1" color="text.primary" sx={{ fontWeight: 500 }}>
-                {worker.name}{' '}
-                <Typography
-                  component="span"
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ fontWeight: 400 }}
-                >
-                  {worker.tag}
+            Unexpected error occurred...
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ marginBottom: '15px' }}>
+            Try again a bit later.
+          </Typography>
+          <Link
+            href={window.location.href}
+            underline="none"
+            sx={{
+              color: 'rgba(101, 52, 255, 1)',
+              margin: '0',
+
+              lineHeight: '20px',
+              fontWeight: '600',
+            }}
+          >
+            Reload Page
+          </Link>
+        </ErrorBox>
+      )}
+
+      {showError && (
+        <ErrorBox>
+          <img src={icon_search} alt="No workers found" style={{ width: '56px', height: '56px' }} />
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: 600, color: 'text.primary', marginBottom: '12px' }}
+          >
+            We did not find anyone
+          </Typography>
+          <Typography sx={{ marginBottom: '12px' }} variant="body1" color="text.secondary">
+            Try to adjust your request
+          </Typography>
+        </ErrorBox>
+      )}
+
+      {!showError && !loading && !error && (
+        <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
+          {filteredWorkers.map((worker: Worker) => (
+            <Stack
+              key={worker.id}
+              direction="row"
+              spacing={2}
+              alignItems="center"
+              sx={{ height: '80px' }}
+            >
+              <Avatar
+                sx={{ height: '72px', width: '72px' }}
+                alt={worker.name}
+                src={worker.avatar}
+              />
+              <Stack direction="column">
+                <Typography variant="subtitle1" color="text.primary" sx={{ fontWeight: 500 }}>
+                  {worker.name}{' '}
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ fontWeight: 400 }}
+                  >
+                    {worker.tag}
+                  </Typography>
                 </Typography>
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {worker.position}
-              </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {worker.position}
+                </Typography>
+              </Stack>
             </Stack>
-          </Stack>
-        ))}
-      </Stack>
+          ))}
+        </Stack>
+      )}
     </Box>
   );
 };

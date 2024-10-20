@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
@@ -14,6 +15,8 @@ import ufo from '../../assets/ufo.png';
 
 interface WorkersListProps {
   sortOrder: SortOrder;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void; // Add this line
 }
 
 const StyledTab = styled(Tab)(({ theme }) => ({
@@ -34,32 +37,58 @@ const ErrorBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
 }));
 
-const WorkersList: React.FC<WorkersListProps> = ({ sortOrder }) => {
+const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSearchTerm }) => {
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { workers, loading, error } = useSelector((state: RootState) => state.workers);
-
   const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('All');
 
-  const sortWorkers = (workers: Workers, sortOrder: SortOrder): Workers =>
-    [...workers].sort((a: Worker, b: Worker) =>
-      sortOrder === 'name'
-        ? a.name.localeCompare(b.name)
-        : new Date(a.birthDate).getTime() - new Date(b.birthDate).getTime(),
-    );
-
   const sortedWorkers = sortWorkers(workers, sortOrder);
+
+  const filterAndSortWorkers = (workers: Workers, searchTerm: string): Workers => {
+    !searchTerm && sortedWorkers;
+
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    return sortedWorkers.filter(
+      (worker: Worker) =>
+        worker.name.toLowerCase().includes(lowercasedSearchTerm) ||
+        worker.email.toLowerCase().includes(lowercasedSearchTerm) ||
+        worker.tag.toLowerCase().includes(lowercasedSearchTerm),
+    );
+  };
+
+  const filteredSortedWorkers = filterAndSortWorkers(sortedWorkers, searchTerm);
 
   useEffect(() => {
     dispatch(fetchWorkersAction());
   }, [dispatch]);
 
-  if (loading) {
-    return (
-      <Typography variant="h6" textAlign="center">
-        Loading...
-      </Typography>
-    );
-  }
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchFromUrl = searchParams.get('search');
+    const tabFromUrl = searchParams.get('tab') as keyof typeof tab_names;
+
+    if (searchFromUrl) setSearchTerm(searchFromUrl);
+    if (tabFromUrl && tab_names[tabFromUrl]) setCurrentTab(tabFromUrl);
+  }, [location.search, setSearchTerm]);
+
+  // Effect to update URL with search term and tab
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    searchTerm ? searchParams.set('search', searchTerm) : searchParams.delete('search');
+    searchParams.set('tab', currentTab);
+
+    navigate(`${location.pathname}?${searchParams.toString()}`, { replace: true });
+  }, [searchTerm, currentTab, navigate, location.pathname]);
+
+  loading && (
+    <Typography variant="h6" textAlign="center">
+      {' '}
+      Loading...
+    </Typography>
+  );
 
   if (error) {
     return (
@@ -82,7 +111,7 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder }) => {
     setCurrentTab(newValue);
   };
 
-  const filteredWorkers = sortedWorkers.filter(
+  const filteredWorkers = filteredSortedWorkers.filter(
     (worker: Worker) =>
       currentTab === 'All' || worker.position.toLowerCase() === tab_names[currentTab].toLowerCase(),
   );
@@ -136,3 +165,11 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder }) => {
 };
 
 export default WorkersList;
+
+function sortWorkers(workers: Workers, sortOrder: SortOrder): Workers {
+  return [...workers].sort((a: Worker, b: Worker) =>
+    sortOrder === 'name'
+      ? a.name.localeCompare(b.name)
+      : new Date(a.birthDate).getTime() - new Date(b.birthDate).getTime(),
+  );
+}

@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   TextField,
   IconButton,
@@ -33,13 +34,26 @@ const style = {
   height: 192,
 };
 
-const Search: React.FC<WorkersListProps> = ({ sortOrder, setSortOrder }) => {
-  const [searchTerm, setSearchTerm] = useState<string>('');
+const Search: React.FC<WorkersListProps> = ({
+  sortOrder,
+  setSortOrder,
+  setSearchTerm,
+  searchTerm,
+}) => {
   const [isOpened, setIsOpened] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    const sortFromUrl = searchParams.get('sort') as SortOrder;
+
+    if (sortFromUrl && (sortFromUrl === 'name' || sortFromUrl === 'birthDate'))
+      setSortOrder(sortFromUrl);
+  }, [location.search, setSortOrder]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => setSearchTerm(event.target.value);
 
   const handleClear = () => {
     setIsOpened(!isOpened);
@@ -47,10 +61,17 @@ const Search: React.FC<WorkersListProps> = ({ sortOrder, setSortOrder }) => {
   };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSortOrder(event.target.value as SortOrder);
+    const newSortOrder = event.target.value as SortOrder;
+    setSortOrder(newSortOrder);
+    updateUrlWithSort(newSortOrder);
   };
-  const handleClose = () => {
-    setIsOpened(false);
+
+  const handleClose = () => setIsOpened(false);
+
+  const updateUrlWithSort = (sort: SortOrder) => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('sort', sort);
+    navigate(`${location.pathname}?${searchParams.toString()}`, { replace: true });
   };
 
   return (

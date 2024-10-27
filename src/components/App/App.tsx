@@ -9,7 +9,7 @@ import WorkersList from '../workers/Workers';
 import type { SortOrder } from '../../entities/Workers';
 
 import '../../index.css';
-
+import './App.css';
 export default function App() {
   const [sortOrder, setSortOrder] = useState<SortOrder>('name');
   const [searchTerm, setSearchTerm] = useState<string>('');

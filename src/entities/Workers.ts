@@ -1,4 +1,13 @@
-// Define Worker interface
+export type Workers = Worker[];
+
+export type SortOrder = 'name' | 'birthDate';
+
+export interface WorkersState {
+  loading: boolean;
+  workers: Workers;
+  error: string | null;
+}
+
 export interface Worker {
   id: string;
   name: string;
@@ -8,20 +17,14 @@ export interface Worker {
   tag: string;
   birthDate: string;
 }
-
-export type Workers = Worker[];
-
-export interface WorkersState {
-  loading: boolean;
-  workers: Workers;
-  error: string | null;
-}
-
-export type SortOrder = 'name' | 'birthDate';
-
-export interface WorkersListProps {
+export interface WorkersList {
   sortOrder: SortOrder;
   searchTerm: string;
   setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+}
+export interface WorkersListProps {
+  sortOrder: SortOrder;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 }

@@ -105,7 +105,11 @@ const theme = createTheme({
     MuiTabs: {
       styleOverrides: {
         root: {
-          width: 'max-content',
+          width: '100%',
+          overflow: 'scroll',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         },
       },
     },
@@ -113,11 +117,13 @@ const theme = createTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           textTransform: 'none',
+
           fontWeight: theme.typography.fontWeightRegular,
           fontSize: theme.typography.pxToRem(15),
           marginRight: theme.spacing(1),
           color: theme.palette.text.secondary,
           height: '36px',
+          overflow: 'auto',
           '&.Mui-selected': {
             fontWeight: theme.typography.fontWeightMedium,
             color: theme.palette.text.primary,
@@ -161,7 +167,7 @@ theme.components = {
         display: 'flex',
         height: '52px',
         justifyContent: 'center',
-        padding: '6px 16px',
+        padding: '6px 0',
         alignItems: 'center',
         width: '100%',
       },

@@ -1,12 +1,10 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import {
   TextField,
   IconButton,
   InputAdornment,
   Modal,
-  Box,
   Radio,
   FormControlLabel,
   Typography,
@@ -14,48 +12,35 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import CloseIcon from '@mui/icons-material/Close';
+import styled from 'styled-components';
 
-import { RootState } from '../../redux/store/store';
-
-import { WorkersListProps } from '../../entities/Workers';
+import { WorkersList } from '../../entities/Workers';
 import type { SortOrder } from '../../entities/Workers';
+import useSearchFilter from '../../hooks/useSearchFilter';
 
-const style = {
-  position: 'absolute' as const,
-  display: 'flex',
-  flexDirection: 'column',
-  textAlign: 'center',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  p: 2,
-  borderRadius: 4,
-  width: 373,
-  lineHeight: 60,
-  height: 192,
-};
+const StyledModalContent = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: ${({ theme }) => theme.palette.background.paper};
+  box-shadow: ${({ theme }) => theme.shadows[5]};
+  padding: 20px 16px 0 16px;
+  border-radius: 20px;
+  width: 373px;
+  line-height: 60px;
+  height: 192px;
+`;
 
-const Search: React.FC<WorkersListProps> = ({
-  sortOrder,
-  setSortOrder,
-  setSearchTerm,
-  searchTerm,
-}) => {
+const Search: React.FC<WorkersList> = ({ sortOrder, setSortOrder, setSearchTerm, searchTerm }) => {
   const [isOpened, setIsOpened] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-
-    const sortFromUrl = searchParams.get('sort') as SortOrder;
-
-    if (sortFromUrl && (sortFromUrl === 'name' || sortFromUrl === 'birthDate'))
-      setSortOrder(sortFromUrl);
-  }, [location.search, setSortOrder]);
-
+  useSearchFilter({ setSortOrder });
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => setSearchTerm(event.target.value);
 
   const handleClear = () => {
@@ -103,8 +88,8 @@ const Search: React.FC<WorkersListProps> = ({
       />
 
       <Modal open={isOpened} onClose={handleClear}>
-        <Box sx={style}>
-          <Typography variant="h6" component="h2" mb={2}>
+        <StyledModalContent>
+          <Typography sx={{ height: '48px' }} variant="h6" component="h2">
             Sort Options
             <IconButton
               sx={{
@@ -119,6 +104,7 @@ const Search: React.FC<WorkersListProps> = ({
             </IconButton>
           </Typography>
           <FormControlLabel
+            sx={{ height: '40px' }}
             control={
               <Radio
                 checked={sortOrder === 'name'}
@@ -130,6 +116,7 @@ const Search: React.FC<WorkersListProps> = ({
             label="Sort by Name"
           />
           <FormControlLabel
+            sx={{ height: '40px', marginTop: '20px' }}
             control={
               <Radio
                 checked={sortOrder === 'birthDate'}
@@ -140,7 +127,7 @@ const Search: React.FC<WorkersListProps> = ({
             }
             label="Sort by Date of Birth"
           />
-        </Box>
+        </StyledModalContent>
       </Modal>
     </>
   );

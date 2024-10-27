@@ -3,13 +3,12 @@ import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { Box, Typography, CssBaseline } from '@mui/material';
 
 import { useState } from 'react';
-
 import Search from '../inputs/Search';
 import theme from '../../theme';
 import WorkersList from '../workers/Workers';
 import type { SortOrder } from '../../entities/Workers';
 
-import './App.css';
+import '../../index.css';
 
 export default function App() {
   const [sortOrder, setSortOrder] = useState<SortOrder>('name');
@@ -21,9 +20,10 @@ export default function App() {
         <CssBaseline />
         <div className="App">
           <header>
-            <Typography className="hide-search" variant="h5">
+            <Typography className="hide" variant="h5">
               Search
             </Typography>
+
             <Box className="search-container">
               <Search
                 setSearchTerm={setSearchTerm}

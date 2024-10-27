@@ -123,7 +123,7 @@ const theme = createTheme({
           marginRight: theme.spacing(1),
           color: theme.palette.text.secondary,
           height: '36px',
-          overflow: 'auto',
+
           '&.Mui-selected': {
             fontWeight: theme.typography.fontWeightMedium,
             color: theme.palette.text.primary,
@@ -170,6 +170,13 @@ theme.components = {
         padding: '6px 0',
         alignItems: 'center',
         width: '100%',
+      },
+
+      '@media (max-width: 375px)': {
+        '.search-container': {
+          height: '40px', // Example of a different height
+          padding: '4px 0', // Adjust padding for smaller screens
+        },
       },
     },
   },

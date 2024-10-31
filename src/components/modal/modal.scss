@@ -1,0 +1,65 @@
+.modalHeader {
+  text-align: center;
+  line-height: 60px;
+  position: relative;
+}
+
+.closeButton {
+  margin-right: auto;
+  width: 24px;
+}
+
+.formControlLabel {
+  height: 60px;
+}
+
+.formControlLabelMargin {
+  height: 60px;
+}
+.modalTitle {
+  display: flex;
+  margin-right: 79px;
+}
+.modal-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  width: 373px;
+  height: 218px;
+  padding: 20px 16px 8px 16px;
+
+  @media (max-width: 375px) {
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    border-radius: 20px 20px 0 0;
+    max-width: 100%;
+    font-size: 16px;
+  }
+  & h2 {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  &__divider {
+    width: 134px;
+    height: 5px;
+    background: #c3c3c6;
+    margin: auto;
+  }
+
+  &__inner-divider {
+    width: 56px;
+    height: 4px;
+    background: #c3c3c6;
+    margin: 12px auto 4px;
+    margin: auto;
+  }
+}

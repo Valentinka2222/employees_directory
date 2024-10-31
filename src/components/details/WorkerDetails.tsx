@@ -1,13 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
-import { useParams, Link } from 'react-router-dom'; // Import Link here
+import { useParams, Link } from 'react-router-dom';
 import { Box, Stack, Typography, Avatar } from '@mui/material';
+
 import { Worker } from '../../entities/Workers';
 import { RootState } from '../../redux/store/store';
-import { useSelector } from 'react-redux';
+
 import star from '../../assets/star.png';
 import phone from '../../assets/phone.png';
 import right_arrow from '../../assets/right_arrow.png';
+
 import './workerDetails.scss';
 
 const WorkerDetails: React.FC = () => {

@@ -1,7 +1,9 @@
 import React from 'react';
 import { IconButton, Radio, FormControlLabel, Typography } from '@mui/material';
+
 import CloseIcon from '@mui/icons-material/Close';
 import type { SortOrder } from '../../entities/Workers';
+
 import './modal.scss';
 
 interface ModalInnerProps {

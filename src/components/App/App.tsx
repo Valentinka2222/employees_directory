@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
@@ -8,7 +7,7 @@ import { Box, Typography, CssBaseline } from '@mui/material';
 import Search from '../inputs/Search';
 import theme from '../../theme';
 import WorkersList from '../workers/Workers';
-import WorkerDetails from '../details/WorkerDetails'; // Import the WorkerDetails component
+import WorkerDetails from '../details/WorkerDetails';
 import type { SortOrder } from '../../entities/Workers';
 
 import '../../index.css';

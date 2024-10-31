@@ -1,0 +1,73 @@
+.workers-list-container {
+  width: 100%;
+}
+
+.error-box {
+  text-align: center;
+  margin: auto;
+  padding: 16px;
+  margin-top: 149px;
+
+  &__image {
+    width: 56px;
+    height: 56px;
+  }
+
+  &__title {
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  &__text {
+    margin-bottom: 15px;
+  }
+
+  &__reload-link {
+    color: #6534ff;
+    margin: 0;
+    font-weight: 600;
+    line-height: 20px;
+    cursor: pointer;
+  }
+}
+
+.loading-placeholder {
+  display: flex;
+  flex-direction: column;
+}
+
+.worker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    height: 80px;
+
+    &-avatar {
+      width: 72px;
+      height: 72px;
+    }
+
+    &-details {
+      display: flex;
+      flex-direction: column;
+
+      &-name {
+        font-weight: 500;
+      }
+
+      &-tag {
+        font-weight: 400;
+
+        margin-left: 0.25rem;
+      }
+
+      &-position {
+        font-size: 0.875rem;
+      }
+    }
+  }
+}

@@ -59,7 +59,7 @@
   width: 134px;
   height: 5px;
   background: #c3c3c6;
-  margin: auto;
+  margin: auto !important;
 }
 
 .modal-content__inner-divider {
@@ -67,5 +67,5 @@
   height: 4px;
   background: #c3c3c6;
   margin: 12px auto 4px;
-  margin: auto;
+  margin: auto !important;
 }

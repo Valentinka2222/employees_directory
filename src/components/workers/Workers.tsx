@@ -13,6 +13,7 @@ import useSearchInput from '../../hooks/useSearchInput';
 
 import ufo from '../../assets/ufo.png';
 import icon_search from '../../assets/icon_search.png';
+import './workers.scss';
 
 const StyledTab = styled(Tab)`
   text-transform: none;
@@ -25,13 +26,6 @@ const StyledTab = styled(Tab)`
     font-weight: ${({ theme }) => theme.typography.fontWeightMedium};
     color: ${({ theme }) => theme.palette.text.primary};
   }
-`;
-
-const ErrorBox = styled(Box)`
-  text-align: center;
-  padding: ${({ theme }) => theme.spacing(4)};
-  margin: auto;
-  margin-top: 149px;
 `;
 
 interface WorkersListProps {
@@ -78,7 +72,6 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
         worker.tag.toLowerCase().includes(lowercasedSearchTerm),
     );
 
-    // Filter by current tab
     return filteredBySearchTerm.filter(
       (worker: Worker) =>
         currentTab === 'All' ||
@@ -95,8 +88,8 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box className="workers-list-container">
+        <Box className="worker-tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs
             indicatorColor="secondary"
             variant="fullWidth"
@@ -112,7 +105,7 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
 
         {/* Loading state */}
         {loading && (
-          <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
+          <Stack className="loading-placeholder" sx={{ padding: 2 }}>
             {skeletonArray.map((_, index) => (
               <Stack key={index} direction="row" spacing={2} alignItems="center">
                 <Skeleton variant="circular" width={72} height={72} />
@@ -127,52 +120,46 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
 
         {/* Error state */}
         {error && (
-          <ErrorBox>
-            <img src={ufo} alt="Error occurred" style={{ width: '56px', height: '56px' }} />
-            <Typography
-              variant="h5"
-              sx={{ fontWeight: 600, color: 'text.primary', marginBottom: '15px' }}
-            >
+          <Box className="error-box">
+            <img className="error-box__image" src={ufo} alt="Error occurred" />
+            <Typography variant="h5" className="error-box__title">
               Unexpected error occurred...
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ marginBottom: '15px' }}>
+            <Typography variant="body1" color="text.secondary" className="error-box__text">
               Try again a bit later.
             </Typography>
             <Link
               onClick={() => dispatch(fetchWorkersAction())}
               component="button"
               underline="none"
-              sx={{
-                color: 'rgba(101, 52, 255, 1)',
-                margin: '0',
-                lineHeight: '20px',
-                fontWeight: '600',
-                cursor: 'pointer',
-              }}
+              className="error-box__reload-link"
             >
               Reload Page
             </Link>
-          </ErrorBox>
+          </Box>
         )}
 
         {/* No results found */}
         {showError && (
-          <ErrorBox>
-            <img
-              src={icon_search}
-              alt="No workers found"
-              style={{ width: '56px', height: '56px' }}
-            />
+          <Box className="error-box">
+            <img src={icon_search} alt="No workers found" className="error-box__image" />
             <Typography
               variant="h5"
-              sx={{ fontWeight: 600, color: 'text.primary', marginBottom: '12px' }}
+              className="error-box__title"
+              sx={{ marginBottom: '12px' }}
+              color="text.primary"
             >
               We did not find anyone
             </Typography>
-            <Typography sx={{ marginBottom: '12px' }} variant="body1" color="text.secondary">
+            <Typography
+              sx={{ marginBottom: '12px' }}
+              className="error-box__text"
+              variant="body1"
+              color="text.secondary"
+            >
               Try to adjust your request
             </Typography>
-          </ErrorBox>
+          </Box>
         )}
 
         {/* Display filtered workers */}
@@ -181,24 +168,28 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
             {filteredSortedWorkers.map((worker: Worker) => (
               <Stack
                 key={worker.id}
+                className="worker-list__item"
                 direction="row"
                 spacing={2}
                 alignItems="center"
-                sx={{ height: '80px' }}
               >
                 <Avatar
-                  sx={{ height: '72px', width: '72px' }}
+                  className="worker-list__item-avatar"
                   alt={worker.name}
                   src={worker.avatar}
                 />
                 <Stack direction="column">
-                  <Typography variant="subtitle1" color="text.primary" sx={{ fontWeight: 500 }}>
+                  <Typography
+                    className="worker-list__item-details-name"
+                    variant="subtitle1"
+                    color="text.primary"
+                  >
                     {worker.name}{' '}
                     <Typography
                       component="span"
                       variant="body2"
                       color="text.secondary"
-                      sx={{ fontWeight: 400 }}
+                      className="worker-list__item-details-tag"
                     >
                       {worker.tag}
                     </Typography>
@@ -216,7 +207,6 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
   );
 };
 
-// Sorting function
 function sortWorkers(workers: Workers, sortOrder: SortOrder): Workers {
   return [...workers].sort((a: Worker, b: Worker) =>
     sortOrder === 'name'

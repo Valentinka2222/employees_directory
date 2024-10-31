@@ -19,13 +19,12 @@ interface SortedModalProps {
 const StyledModalContent = styled.div<{ expanded: boolean; isMobile: boolean }>`
   background-color: ${({ theme }) => theme.palette.background.paper};
   box-shadow: ${({ theme }) => theme.shadows[5]};
-
   transition: height 0.3s ease-in-out;
+  height: ${({ expanded, isMobile }) => (isMobile ? (expanded ? '192px' : '34px') : 'auto')};
 
   @media (max-width: 375px) {
     padding: ${({ expanded }) => (expanded ? '8px 16px' : '9px')};
   }
-  height: ${({ expanded, isMobile }) => (isMobile ? (expanded ? '192px' : '34px') : 'auto')};
 `;
 
 const SortedModal: React.FC<SortedModalProps> = ({

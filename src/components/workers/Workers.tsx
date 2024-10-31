@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link as Lnk } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Stack, Typography, Box, Tabs, Tab, Link, Skeleton } from '@mui/material';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
@@ -166,39 +167,45 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
         {!showError && !loading && !error && (
           <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
             {filteredSortedWorkers.map((worker: Worker) => (
-              <Stack
+              <Lnk
+                to={`/workers/${worker.id.toString()}`} // Adjust the path as needed
                 key={worker.id}
-                className="worker-list__item"
-                direction="row"
-                spacing={2}
-                alignItems="center"
+                className="worker-list__item no-underline" // Use your existing styling
               >
-                <Avatar
-                  className="worker-list__item-avatar"
-                  alt={worker.name}
-                  src={worker.avatar}
-                />
-                <Stack direction="column">
-                  <Typography
-                    className="worker-list__item-details-name"
-                    variant="subtitle1"
-                    color="text.primary"
-                  >
-                    {worker.name}{' '}
+                <Stack
+                  key={worker.id}
+                  className="worker-list__item"
+                  direction="row"
+                  spacing={2}
+                  alignItems="center"
+                >
+                  <Avatar
+                    className="worker-list__item-avatar"
+                    alt={worker.name}
+                    src={worker.avatar}
+                  />
+                  <Stack direction="column">
                     <Typography
-                      component="span"
-                      variant="body2"
-                      color="text.secondary"
-                      className="worker-list__item-details-tag"
+                      className="worker-list__item-details-name"
+                      variant="subtitle1"
+                      color="text.primary"
                     >
-                      {worker.tag}
+                      {worker.name}{' '}
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        color="text.secondary"
+                        className="worker-list__item-details-tag"
+                      >
+                        {worker.tag}
+                      </Typography>
                     </Typography>
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {worker.position}
-                  </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {worker.position}
+                    </Typography>
+                  </Stack>
                 </Stack>
-              </Stack>
+              </Lnk>
             ))}
           </Stack>
         )}

@@ -8,7 +8,6 @@
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier"
-  
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -18,9 +17,9 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint","plugins","prettier"],
+  "plugins": ["react", "@typescript-eslint", "prettier"], // Removed "plugins" from here
   "rules": {
-     "prettier/prettier": [
+    "prettier/prettier": [
       "warn",
       {
         "endOfLine": "auto"

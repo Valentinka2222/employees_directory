@@ -1,0 +1,79 @@
+.worker-details {
+  text-align: center;
+
+  &__header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+
+      img {
+        height: 24px;
+      }
+    }
+  }
+
+  &__info-card {
+    height: 184px;
+    background: #f7f7f8;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .MuiStack-root {
+      margin: 0;
+    }
+    .MuiAvatar-root {
+      margin-bottom: 24px;
+      height: 104px;
+      width: 104px;
+    }
+
+    &__name {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 28px;
+      color: #333;
+
+      &-tag {
+        font-size: 16px;
+
+        margin-left: 8px;
+      }
+    }
+
+    &__position {
+      font-size: 14px;
+      text-align: center;
+      align-items: center;
+    }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      padding: 2px 16px;
+      height: 60px;
+
+      img {
+        height: 24px;
+        margin-right: 8px;
+      }
+
+      .MuiTypography-root {
+        line-height: 28px;
+        color: #333;
+      }
+    }
+  }
+}

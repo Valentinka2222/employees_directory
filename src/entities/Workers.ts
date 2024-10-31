@@ -16,6 +16,7 @@ export interface Worker {
   position: string;
   tag: string;
   birthDate: string;
+  phone: string;
 }
 export interface WorkersList {
   sortOrder: SortOrder;

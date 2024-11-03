@@ -9,7 +9,7 @@ import { WorkersList } from '../../entities/Workers';
 
 import useSearchFilter from '../../hooks/useSearchFilter';
 
-import '../../index.css';
+import '../../index.scss';
 
 const Search: React.FC<WorkersList> = ({ sortOrder, setSortOrder, setSearchTerm, searchTerm }) => {
   const [isOpened, setIsOpened] = useState(false);

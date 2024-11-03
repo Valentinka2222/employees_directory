@@ -4,6 +4,7 @@ import { Divider, Collapse, useMediaQuery, Modal } from '@mui/material';
 import type { SortOrder } from '../../entities/Workers';
 import styled from 'styled-components';
 import ModalInner from './ModalInner';
+
 import './modal.scss';
 
 interface SortedModalProps {

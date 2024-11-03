@@ -10,7 +10,7 @@ import WorkersList from '../workers/Workers';
 import WorkerDetails from '../details/WorkerDetails';
 import type { SortOrder } from '../../entities/Workers';
 
-import '../../index.css';
+import '../../index.scss';
 import './App.scss';
 
 export default function App() {

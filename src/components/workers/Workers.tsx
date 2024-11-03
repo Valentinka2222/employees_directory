@@ -14,6 +14,7 @@ import useSearchInput from '../../hooks/useSearchInput';
 
 import ufo from '../../assets/ufo.png';
 import icon_search from '../../assets/icon_search.png';
+
 import './workers.scss';
 
 const StyledTab = styled(Tab)`

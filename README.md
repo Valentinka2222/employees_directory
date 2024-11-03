@@ -37,13 +37,13 @@
 
 ## Technologies Used
 
-- [React](https://reactjs.org/): For creating the user interface.
-- [TypeScript](https://www.typescriptlang.org/): For adding static type definitions to enhance code quality and developer experience.
-- [Redux Toolkit](https://redux-toolkit.js.org/): For efficient Redux development with simplified configuration and better defaults.
-- [Styled Components](https://styled-components.com/): For writing CSS code within JavaScript, allowing for dynamic styling.
-- [React Router](https://reactrouter.com/): For page navigation.
-- [Material UI](https://mui.com/): For responsive, user-friendly UI components.
-- [Moment.js](https://momentjs.com/): For managing and displaying date formats.
+- [React](https://reactjs.org/){:target="_blank"}: For creating the user interface.
+- [TypeScript](https://www.typescriptlang.org/){:target="_blank"}: For adding static type definitions to enhance code quality and developer experience.
+- [Redux Toolkit](https://redux-toolkit.js.org/){:target="_blank"}: For efficient Redux development with simplified configuration and better defaults.
+- [Styled Components](https://styled-components.com/){:target="_blank"}: For writing CSS code within JavaScript, allowing for dynamic styling.
+- [React Router](https://reactrouter.com/){:target="_blank"}: For page navigation.
+- [Material UI](https://mui.com/){:target="_blank"}: For responsive, user-friendly UI components.
+- [Moment.js](https://momentjs.com/){:target="_blank"}: For managing and displaying date formats.
 
 ## Future Enhancements
 

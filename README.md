@@ -2,9 +2,9 @@
 
 ![Employee Directory Logo](src/assets/overview.png)
 
-# Employee Directory
+# Employees Directory
 
-**Employee Directory** is a React and Redux-based application designed to provide a comprehensive view of employees across different departments within a company. The app offers functionalities to filter employees by departments, view detailed employee profiles, and sort or filter based on various criteria, such as age. This tool is ideal for quickly locating team members and reviewing organizational structure.
+**Employees Directory** is a React and Redux-based application designed to provide a comprehensive view of employees across different departments within a company. The app offers functionalities to filter employees by departments, view detailed employee profiles, and sort or filter based on various criteria, such as age. This tool is ideal for quickly locating team members and reviewing organizational structure.
 
 ## Features
 

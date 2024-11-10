@@ -5,7 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 
 import { Box, Stack, Typography, Avatar } from '@mui/material';
 
-import { fetchWorkersAction } from '../../redux/reducer/workersReducer'; // Adjust path as needed
+import { fetchWorkersAction } from '../../redux/reducer/workersReducer';
 import { Worker } from '../../entities/Workers';
 import { RootState, AppDispatch } from '../../redux/store/store';
 
@@ -23,7 +23,7 @@ const WorkerDetails: React.FC = () => {
 
   useEffect(() => {
     if (!workers.length) {
-      dispatch(fetchWorkersAction()); // Fetch workers if not available in Redux store
+      dispatch(fetchWorkersAction());
     }
   }, [dispatch, workers]);
 

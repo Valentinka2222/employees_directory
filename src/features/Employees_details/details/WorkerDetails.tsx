@@ -5,13 +5,13 @@ import { useParams, Link } from 'react-router-dom';
 
 import { Box, Stack, Typography, Avatar } from '@mui/material';
 
-import { fetchWorkersAction } from '../../redux/reducer/workersReducer';
-import { Worker } from '../../entities/Workers';
-import { RootState, AppDispatch } from '../../redux/store/store';
+import { fetchWorkersAction } from '../../../redux/reducer/workersReducer';
+import { Worker } from '../../../entities/Workers';
+import { RootState, AppDispatch } from '../../../redux/store/store';
 
-import star from '../../assets/star.png';
-import phone from '../../assets/phone.png';
-import right_arrow from '../../assets/right_arrow.png';
+import star from '../../../assets/star.png';
+import phone from '../../../assets/phone.png';
+import right_arrow from '../../../assets/right_arrow.png';
 
 import './workerDetails.scss';
 

@@ -5,15 +5,15 @@ import { Avatar, Stack, Typography, Box, Tabs, Tab, Link, Skeleton } from '@mui/
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import styled from 'styled-components';
 
-import useSearchTab from '../../hooks/useSearchTab';
-import { fetchWorkersAction } from '../../redux/reducer/workersReducer';
-import { RootState, AppDispatch } from '../../redux/store/store';
-import { tab_names } from '../../data/tab';
-import { SortOrder, Worker, Workers } from '../../entities/Workers';
-import useSearchInput from '../../hooks/useSearchInput';
+import useSearchTab from '../../../hooks/useSearchTab';
+import { fetchWorkersAction } from '../../../redux/reducer/workersReducer';
+import { RootState, AppDispatch } from '../../../redux/store/store';
+import { tab_names } from '../../../data/tab';
+import { SortOrder, Worker, Workers } from '../../../entities/Workers';
+import useSearchInput from '../../../hooks/useSearchInput';
 
-import ufo from '../../assets/ufo.png';
-import icon_search from '../../assets/icon_search.png';
+import ufo from '../../../assets/ufo.png';
+import icon_search from '../../../assets/icon_search.png';
 
 import './workers.scss';
 

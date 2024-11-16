@@ -5,27 +5,27 @@ import { useParams, Link } from 'react-router-dom';
 
 import { Box, Stack, Typography, Avatar } from '@mui/material';
 
-import { fetchWorkersAction } from '../../../redux/reducer/workersReducer';
-import { Worker } from '../../../entities/Workers';
+import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
+import { Employer } from '../../../entities/Employees';
 import { RootState, AppDispatch } from '../../../redux/store/store';
 
 import star from '../../../assets/star.png';
 import phone from '../../../assets/phone.png';
 import right_arrow from '../../../assets/right_arrow.png';
 
-import './workerDetails.scss';
+import './employeesDetails.scss';
 
-const WorkerDetails: React.FC = () => {
+const EmployeesDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch: AppDispatch = useDispatch();
-  const { workers } = useSelector((state: RootState) => state.workers);
-  const worker = workers.find((worker: Worker) => worker.id === id);
+  const { employees } = useSelector((state: RootState) => state.employees);
+  const worker = employees.find((worker: Employer) => worker.id === id);
 
   useEffect(() => {
-    if (!workers.length) {
+    if (!employees.length) {
       dispatch(fetchWorkersAction());
     }
-  }, [dispatch, workers]);
+  }, [dispatch, employees]);
 
   return (
     <Box className="worker-details">
@@ -82,4 +82,4 @@ const WorkerDetails: React.FC = () => {
   );
 };
 
-export default WorkerDetails;
+export default EmployeesDetails;

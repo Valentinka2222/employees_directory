@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import type { SortOrder } from '../entities/Workers';
-import { WorkersList } from '../entities/Workers';
+import type { SortOrder } from '../entities/Employees';
+import { EmployeesList } from '../entities/Employees';
 
 interface UseSearchFilterProps {
-  setSortOrder: WorkersList['setSortOrder'];
+  setSortOrder: EmployeesList['setSortOrder'];
 }
 
 const useSearchFilter = ({ setSortOrder }: UseSearchFilterProps) => {

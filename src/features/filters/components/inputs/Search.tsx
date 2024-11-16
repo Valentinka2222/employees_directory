@@ -5,13 +5,18 @@ import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import SortedModal from '../modal/SortedModal';
 
-import { WorkersList } from '../../../../entities/Workers';
+import { EmployeesList } from '../../../../entities/Employees';
 
 import useSearchFilter from '../../../../hooks/useSearchFilter';
 
 import '../../../../index.scss';
 
-const Search: React.FC<WorkersList> = ({ sortOrder, setSortOrder, setSearchTerm, searchTerm }) => {
+const Search: React.FC<EmployeesList> = ({
+  sortOrder,
+  setSortOrder,
+  setSearchTerm,
+  searchTerm,
+}) => {
   const [isOpened, setIsOpened] = useState(false);
   const [expanded, setExpanded] = useState(false);
 

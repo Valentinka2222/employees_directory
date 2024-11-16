@@ -1,14 +1,14 @@
-export type Workers = Worker[];
+export type Employees = Employer[];
 
 export type SortOrder = 'name' | 'birthDate';
 
-export interface WorkersState {
+export interface EmployeesState {
   loading: boolean;
-  workers: Workers;
+  employees: Employees;
   error: string | null;
 }
 
-export interface Worker {
+export interface Employer {
   id: string;
   name: string;
   avatar: string;
@@ -18,13 +18,13 @@ export interface Worker {
   birthDate: string;
   phone: string;
 }
-export interface WorkersList {
+export interface EmployeesList {
   sortOrder: SortOrder;
   searchTerm: string;
   setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
-export interface WorkersListProps {
+export interface EmployeesListProps {
   sortOrder: SortOrder;
   searchTerm: string;
   setSearchTerm: (term: string) => void;

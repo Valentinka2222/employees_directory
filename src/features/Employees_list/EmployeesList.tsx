@@ -5,17 +5,17 @@ import { Avatar, Stack, Typography, Box, Tabs, Tab, Link, Skeleton } from '@mui/
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import styled from 'styled-components';
 
-import useSearchTab from '../../../hooks/useSearchTab';
-import { fetchWorkersAction } from '../../../redux/reducer/workersReducer';
-import { RootState, AppDispatch } from '../../../redux/store/store';
-import { tab_names } from '../../../data/tab';
-import { SortOrder, Worker, Workers } from '../../../entities/Workers';
-import useSearchInput from '../../../hooks/useSearchInput';
+import useSearchTab from '../../hooks/useSearchTab';
+import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
+import { RootState, AppDispatch } from '../../redux/store/store';
+import { tab_names } from '../../data/tab';
+import { SortOrder, Employer, Employees } from '../../entities/Employees';
+import useSearchInput from '../../hooks/useSearchInput';
 
-import ufo from '../../../assets/ufo.png';
-import icon_search from '../../../assets/icon_search.png';
+import ufo from '../../assets/ufo.png';
+import icon_search from '../../assets/icon_search.png';
 
-import './workers.scss';
+import './employeesList.scss';
 
 const StyledTab = styled(Tab)`
   text-transform: none;
@@ -30,18 +30,18 @@ const StyledTab = styled(Tab)`
   }
 `;
 
-interface WorkersListProps {
+interface EmployeesListProps {
   sortOrder: SortOrder;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
 }
 
-const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSearchTerm }) => {
+const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, setSearchTerm }) => {
   const theme = useTheme();
   const dispatch: AppDispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('All');
 
-  const { workers, loading, error } = useSelector((state: RootState) => state.workers);
+  const { employees, loading, error } = useSelector((state: RootState) => state.employees);
 
   useEffect(() => {
     dispatch(fetchWorkersAction());
@@ -62,26 +62,26 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
   );
 
   const filterAndSortWorkers = (
-    workers: Workers,
+    employees: Employees,
     searchTerm: string,
     currentTab: keyof typeof tab_names,
-  ): Workers => {
+  ): Employees => {
     const lowercasedSearchTerm = searchTerm.toLowerCase();
-    const filteredBySearchTerm = workers.filter(
-      (worker: Worker) =>
+    const filteredBySearchTerm = employees.filter(
+      (worker: Employer) =>
         worker.name.toLowerCase().includes(lowercasedSearchTerm) ||
         worker.email.toLowerCase().includes(lowercasedSearchTerm) ||
         worker.tag.toLowerCase().includes(lowercasedSearchTerm),
     );
 
     return filteredBySearchTerm.filter(
-      (worker: Worker) =>
+      (worker: Employer) =>
         currentTab === 'All' ||
         worker.position.toLowerCase() === tab_names[currentTab].toLowerCase(),
     );
   };
 
-  const sortedWorkers = sortWorkers(workers, sortOrder);
+  const sortedWorkers = sortWorkers(employees, sortOrder);
   const filteredSortedWorkers = filterAndSortWorkers(sortedWorkers, searchTerm, currentTab);
 
   const showError = searchTerm && filteredSortedWorkers.length === 0;
@@ -167,11 +167,11 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
         {/* Display filtered workers */}
         {!showError && !loading && !error && (
           <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
-            {filteredSortedWorkers.map((worker: Worker) => (
+            {filteredSortedWorkers.map((worker: Employer) => (
               <Lnk
-                to={`/workers/${worker.id.toString()}`} // Adjust the path as needed
+                to={`/workers/${worker.id.toString()}`}
                 key={worker.id}
-                className="worker-list__item no-underline" // Use your existing styling
+                className="worker-list__item no-underline"
               >
                 <Stack
                   key={worker.id}
@@ -215,12 +215,12 @@ const WorkersList: React.FC<WorkersListProps> = ({ sortOrder, searchTerm, setSea
   );
 };
 
-function sortWorkers(workers: Workers, sortOrder: SortOrder): Workers {
-  return [...workers].sort((a: Worker, b: Worker) =>
+function sortWorkers(employees: Employees, sortOrder: SortOrder): Employees {
+  return [...employees].sort((a: Employer, b: Employer) =>
     sortOrder === 'name'
       ? a.name.localeCompare(b.name)
       : new Date(a.birthDate).getTime() - new Date(b.birthDate).getTime(),
   );
 }
 
-export default WorkersList;
+export default EmployeesList;

@@ -6,9 +6,9 @@ import { Box, Typography, CssBaseline } from '@mui/material';
 
 import Search from './features/filters/components/inputs/Search';
 import theme from './theme';
-import WorkersList from './features/Employees_list/workers/Workers';
-import WorkerDetails from './features/Employees_details/details/WorkerDetails';
-import type { SortOrder } from './entities/Workers';
+import EmployeesList from './features/Employees_list/EmployeesList';
+import EmployeesDetails from './features/Employees_details/details/EmployeesDetails';
+import type { SortOrder } from './entities/Employees';
 
 import './index.scss';
 import './App.scss';
@@ -48,14 +48,14 @@ export default function App() {
               <Route
                 path="/"
                 element={
-                  <WorkersList
+                  <EmployeesList
                     sortOrder={sortOrder}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
                   />
                 }
               />
-              <Route path="/workers/:id" element={<WorkerDetails />} />
+              <Route path="/workers/:id" element={<EmployeesDetails />} />
             </Routes>
           </main>
         </div>

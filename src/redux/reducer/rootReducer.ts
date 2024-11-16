@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import workersReducer from './workersReducer'; // Correct import path
+import employeesReducer from './employeersReducer';
 
 const rootReducer = combineReducers({
-  workers: workersReducer, // Ensure this matches the slice name
+  employees: employeesReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link as Lnk } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Stack, Typography, Box, Tabs, Tab, Link, Skeleton } from '@mui/material';
+import { Avatar, Stack, Typography, Box, Tabs, Tab, Link, Skeleton, Divider } from '@mui/material';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import styled from 'styled-components';
+import moment from 'moment';
 
 import useSearchTab from '../../hooks/useSearchTab';
 import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
@@ -205,7 +206,19 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
                       {worker.position}
                     </Typography>
                   </Stack>
+                  <Stack className="worker-list__item-details-birthday">
+                    <Typography variant="body2">
+                      {moment(worker.birthDate).format('DD MMM')}
+                    </Typography>
+                  </Stack>
                 </Stack>
+                {/* Divider with centered date of birth */}
+
+                <Divider sx={{ width: '100%' }} textAlign="center">
+                  <Typography variant="body2" color="text.secondary">
+                    {moment(worker.birthDate).format('YYYY')}
+                  </Typography>
+                </Divider>
               </Lnk>
             ))}
           </Stack>

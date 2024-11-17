@@ -1,13 +1,11 @@
 import { Typography, Box } from '@mui/material';
 
-import icon_search from '../../images/icon_search.png';
-
 import './error.scss';
 
 const ErrorNotFound = () => {
   return (
     <Box className="error-box">
-      <img src={icon_search} alt="No workers found" className="error-box__image" />
+      <img src="/images/icon_search.png" alt="No workers found" className="error-box__image" />
       <Typography
         variant="h5"
         className="error-box__title"

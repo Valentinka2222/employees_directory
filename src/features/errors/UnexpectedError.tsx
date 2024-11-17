@@ -4,8 +4,6 @@ import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store/store';
 
-import ufo from '../../images/ufo.png';
-
 import './error.scss';
 
 const UnexpectedError = () => {
@@ -13,7 +11,7 @@ const UnexpectedError = () => {
 
   return (
     <Box className="error-box">
-      <img className="error-box__image" src={ufo} alt="Error occurred" />
+      <img className="error-box__image" src="/images/ufo.png" alt="Error occurred" />
       <Typography variant="h5" className="error-box__title">
         Unexpected error occurred...
       </Typography>

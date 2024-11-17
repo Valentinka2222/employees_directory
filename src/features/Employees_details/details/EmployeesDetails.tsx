@@ -9,10 +9,10 @@ import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
 import { Employer } from '../../../entities/Employees';
 import { RootState, AppDispatch } from '../../../redux/store/store';
 
-import stars from '../../../assets/stars.png';
+import stars from '../../../images/stars.png';
 
-import phone from '../../../assets/phone.png';
-import right_arrow from '../../../assets/right_arrow.png';
+import phone from '../../../images/phone.png';
+import right_arrow from '../../../images/right_arrow.png';
 
 import './employeesDetails.scss';
 

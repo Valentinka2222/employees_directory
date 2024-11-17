@@ -1,6 +1,6 @@
 import { Typography, Box } from '@mui/material';
 
-import icon_search from '../../assets/icon_search.png';
+import icon_search from '../../images/icon_search.png';
 
 import './error.scss';
 

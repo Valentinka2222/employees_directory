@@ -4,7 +4,7 @@ import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store/store';
 
-import ufo from '../../assets/ufo.png';
+import ufo from '../../images/ufo.png';
 
 import './error.scss';
 

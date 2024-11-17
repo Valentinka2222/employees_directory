@@ -16,10 +16,12 @@
 .formControlLabelMargin {
   height: 60px;
 }
+
 .modalTitle {
   display: flex;
   margin-right: 79px;
 }
+
 .modal-content {
   position: absolute;
   display: flex;
@@ -30,14 +32,16 @@
   border-radius: 20px;
   width: 373px;
   padding: 20px 16px 8px 16px;
+}
 
-  .css-10klw3m {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+.modal-content .css-10klw3m {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
-  @media (max-width: 375px) {
+@media (max-width: 375px) {
+  .modal-content {
     position: fixed;
     bottom: 0;
     top: auto;
@@ -48,22 +52,24 @@
     max-width: 100%;
     font-size: 16px;
   }
-  & h2 {
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-  }
-  &__divider {
-    width: 134px;
-    height: 5px;
-    background: #c3c3c6;
-    margin: auto !important;
-  }
+}
 
-  &__inner-divider {
-    width: 56px;
-    height: 4px;
-    background: #c3c3c6;
-    margin: auto !important;
-  }
+.modal-content h2 {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.modal-content__divider {
+  width: 134px;
+  height: 5px;
+  background: #c3c3c6;
+  margin: auto !important;
+}
+
+.modal-content__inner-divider {
+  width: 56px;
+  height: 4px;
+  background: #c3c3c6;
+  margin: auto !important;
 }

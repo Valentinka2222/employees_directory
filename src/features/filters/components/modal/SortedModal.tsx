@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Divider, Collapse, useMediaQuery, Modal } from '@mui/material';
+import { Divider, Collapse, useMediaQuery, Modal, Box } from '@mui/material';
 import type { SortOrder } from '../../../../entities/Employees';
 import styled from 'styled-components';
 import ModalInner from './ModalInner';
@@ -21,7 +21,8 @@ const StyledModalContent = styled.div<{ expanded: boolean; isMobile: boolean }>`
   background-color: ${({ theme }) => theme.palette.background.paper};
   box-shadow: ${({ theme }) => theme.shadows[5]};
   transition: height 0.3s ease-in-out;
-  height: ${({ expanded, isMobile }) => (isMobile ? (expanded ? '192px' : '34px') : 'auto')};
+
+  height: ${({ expanded, isMobile }) => (isMobile ? (expanded ? '192px' : '34px') : '218px')};
 
   @media (max-width: 375px) {
     padding: ${({ expanded }) => (expanded ? '8px 16px' : '9px')};

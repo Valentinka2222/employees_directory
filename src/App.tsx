@@ -28,7 +28,7 @@ export default function App() {
 
         <div className="App">
           {shouldDisplayHeader && (
-            <header style={{ padding: '16px 16px 0 16px' }}>
+            <header>
               <Typography className="hide" variant="h5">
                 Search
               </Typography>

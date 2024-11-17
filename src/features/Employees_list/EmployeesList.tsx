@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link as Lnk } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Stack, Typography, Box, Tabs, Tab, Link, Skeleton, Divider } from '@mui/material';
+import { Avatar, Stack, Typography, Box, Tabs, Tab, Skeleton, Divider } from '@mui/material';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 import styled from 'styled-components';
 import moment from 'moment';
@@ -11,10 +11,9 @@ import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
 import { RootState, AppDispatch } from '../../redux/store/store';
 import { tab_names } from '../../data/tab';
 import { SortOrder, Employer, Employees } from '../../entities/Employees';
+import UnexpectedError from '../errors/UnexpectedError';
+import ErrorNotFound from '../errors/NotFound';
 import useSearchInput from '../../hooks/useSearchInput';
-
-import ufo from '../../assets/ufo.png';
-import icon_search from '../../assets/icon_search.png';
 
 import './employeesList.scss';
 
@@ -69,23 +68,24 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
   ): Employees => {
     const lowercasedSearchTerm = searchTerm.toLowerCase();
     const filteredBySearchTerm = employees.filter(
-      (worker: Employer) =>
-        worker.name.toLowerCase().includes(lowercasedSearchTerm) ||
-        worker.email.toLowerCase().includes(lowercasedSearchTerm) ||
-        worker.tag.toLowerCase().includes(lowercasedSearchTerm),
+      (employee: Employer) =>
+        employee.name.toLowerCase().includes(lowercasedSearchTerm) ||
+        employee.email.toLowerCase().includes(lowercasedSearchTerm) ||
+        employee.tag.toLowerCase().includes(lowercasedSearchTerm),
     );
 
     return filteredBySearchTerm.filter(
-      (worker: Employer) =>
+      (employee: Employer) =>
         currentTab === 'All' ||
-        worker.position.toLowerCase() === tab_names[currentTab].toLowerCase(),
+        employee.position.toLowerCase() === tab_names[currentTab].toLowerCase(),
     );
   };
 
   const sortedWorkers = sortWorkers(employees, sortOrder);
   const filteredSortedWorkers = filterAndSortWorkers(sortedWorkers, searchTerm, currentTab);
 
-  const showError = searchTerm && filteredSortedWorkers.length === 0;
+  const showError =
+    (searchTerm && filteredSortedWorkers.length === 0) || filteredSortedWorkers.length === 0;
 
   const skeletonArray = Array.from(new Array(6));
 
@@ -122,60 +122,22 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
         )}
 
         {/* Error state */}
-        {error && (
-          <Box className="error-box">
-            <img className="error-box__image" src={ufo} alt="Error occurred" />
-            <Typography variant="h5" className="error-box__title">
-              Unexpected error occurred...
-            </Typography>
-            <Typography variant="body1" color="text.secondary" className="error-box__text">
-              Try again a bit later.
-            </Typography>
-            <Link
-              onClick={() => dispatch(fetchWorkersAction())}
-              component="button"
-              underline="none"
-              className="error-box__reload-link"
-            >
-              Reload Page
-            </Link>
-          </Box>
-        )}
+        {error && <UnexpectedError />}
 
         {/* No results found */}
-        {showError && (
-          <Box className="error-box">
-            <img src={icon_search} alt="No workers found" className="error-box__image" />
-            <Typography
-              variant="h5"
-              className="error-box__title"
-              sx={{ marginBottom: '12px' }}
-              color="text.primary"
-            >
-              We did not find anyone
-            </Typography>
-            <Typography
-              sx={{ marginBottom: '12px' }}
-              className="error-box__text"
-              variant="body1"
-              color="text.secondary"
-            >
-              Try to adjust your request
-            </Typography>
-          </Box>
-        )}
+        {showError && <ErrorNotFound />}
 
         {/* Display filtered workers */}
         {!showError && !loading && !error && (
           <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
-            {filteredSortedWorkers.map((worker: Employer) => (
+            {filteredSortedWorkers.map((employee: Employer) => (
               <Lnk
-                to={`/workers/${worker.id.toString()}`}
-                key={worker.id}
+                to={`/workers/${employee.id.toString()}`}
+                key={employee.id}
                 className="worker-list__item no-underline"
               >
                 <Stack
-                  key={worker.id}
+                  key={employee.id}
                   className="worker-list__item"
                   direction="row"
                   spacing={2}
@@ -183,8 +145,8 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
                 >
                   <Avatar
                     className="worker-list__item-avatar"
-                    alt={worker.name}
-                    src={worker.avatar}
+                    alt={employee.name}
+                    src={employee.avatar}
                   />
                   <Stack direction="column">
                     <Typography
@@ -192,23 +154,23 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
                       variant="subtitle1"
                       color="text.primary"
                     >
-                      {worker.name}{' '}
+                      {employee.name}{' '}
                       <Typography
                         component="span"
                         variant="body2"
                         color="text.secondary"
                         className="worker-list__item-details-tag"
                       >
-                        {worker.tag}
+                        {employee.tag}
                       </Typography>
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {worker.position}
+                      {employee.position}
                     </Typography>
                   </Stack>
                   <Stack className="worker-list__item-details-birthday">
                     <Typography variant="body2">
-                      {moment(worker.birthDate).format('DD MMM')}
+                      {moment(employee.birthDate).format('DD MMM')}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -216,7 +178,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
 
                 <Divider sx={{ width: '100%' }} textAlign="center">
                   <Typography variant="body2" color="text.secondary">
-                    {moment(worker.birthDate).format('YYYY')}
+                    {moment(employee.birthDate).format('YYYY')}
                   </Typography>
                 </Divider>
               </Lnk>

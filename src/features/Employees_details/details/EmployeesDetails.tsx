@@ -19,7 +19,7 @@ const EmployeesDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch: AppDispatch = useDispatch();
   const { employees } = useSelector((state: RootState) => state.employees);
-  const worker = employees.find((worker: Employer) => worker.id === id);
+  const employee = employees.find((employee: Employer) => employee.id === id);
 
   useEffect(() => {
     if (!employees.length) {
@@ -34,23 +34,23 @@ const EmployeesDetails: React.FC = () => {
           <img src={right_arrow} alt="Go back" />
         </Link>
       </Box>
-      {worker && (
+      {employee && (
         <Stack className="worker-details__info-card" spacing={2}>
-          <Avatar alt={worker.name} src={worker.avatar} />
+          <Avatar alt={employee.name} src={employee.avatar} />
           <Stack direction="column">
             <Typography
               className="worker-details__info-card__name"
               variant="subtitle2"
               color="text.primary"
             >
-              {worker.name}{' '}
+              {employee.name}{' '}
               <Typography
                 component="span"
                 variant="body2"
                 color="text.secondary"
                 className="worker-list__item-details-tag"
               >
-                {worker.tag}
+                {employee.tag}
               </Typography>
             </Typography>
             <Typography
@@ -59,22 +59,22 @@ const EmployeesDetails: React.FC = () => {
               variant="body2"
               color="text.secondary"
             >
-              {worker.position}
+              {employee.position}
             </Typography>
           </Stack>
         </Stack>
       )}
-      {worker && (
+      {employee && (
         <Box>
           <Box className="worker-details__details-item">
             <img src={star} alt="Birthday" />
             <Typography variant="body1">
-              {moment(worker.birthDate).format('D MMMM YYYY')}
+              {moment(employee.birthDate).format('D MMMM YYYY')}
             </Typography>
           </Box>
           <Box className="worker-details__details-item">
-            <img height="28px" src={phone} alt="Phone" />
-            <Typography variant="body1">{worker.phone}</Typography>
+            <img src={phone} alt="Phone" />
+            <Typography variant="body1">{employee.phone}</Typography>
           </Box>
         </Box>
       )}

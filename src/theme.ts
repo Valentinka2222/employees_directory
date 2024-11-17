@@ -174,8 +174,8 @@ theme.components = {
 
       '@media (max-width: 375px)': {
         '.search-container': {
-          height: '40px', // Example of a different height
-          padding: '4px 0', // Adjust padding for smaller screens
+          height: '40px',
+          padding: '4px 0',
         },
       },
     },

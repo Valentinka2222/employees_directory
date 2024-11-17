@@ -15,30 +15,35 @@ const useSearchTab = ({ setSearchTerm, setCurrentTab, currentTab }: UseSearchTab
 
   const updateUrlParams = useCallback(() => {
     const searchParams = new URLSearchParams(location.search);
+
     searchParams.set('tab', currentTab);
-    navigate({ search: searchParams.toString() }, { replace: true });
-  }, [currentTab, navigate, location.search]);
+
+    const newSearch = `?${searchParams.toString()}`;
+
+    if (location.search !== newSearch) navigate({ search: newSearch }, { replace: true });
+  }, [currentTab, location.search, navigate]);
 
   useEffect(() => {
     if (isInitialMount.current) {
       const searchParams = new URLSearchParams(location.search);
-      const searchFromUrl = searchParams.get('search');
+
+      const searchFromUrl = searchParams.get('search') || '';
+      setSearchTerm(searchFromUrl);
+
       const tabFromUrl = searchParams.get('tab') as keyof typeof tab_names;
-
-      if (searchFromUrl && searchFromUrl !== '') {
-        setSearchTerm(searchFromUrl);
-      }
-
       const validTab = tabFromUrl && tab_names[tabFromUrl] ? tabFromUrl : 'All';
-      if (currentTab !== validTab) {
-        setCurrentTab(validTab);
+      if (currentTab !== validTab) setCurrentTab(validTab);
+
+      if (!tabFromUrl || !searchParams.get('tab')) {
+        searchParams.set('tab', validTab);
+        if (searchFromUrl) searchParams.set('search', searchFromUrl);
+
+        navigate({ search: searchParams.toString() }, { replace: true });
       }
 
       isInitialMount.current = false;
-    } else {
-      updateUrlParams();
-    }
-  }, [location.search, setSearchTerm, setCurrentTab, currentTab, updateUrlParams]);
+    } else updateUrlParams();
+  }, [currentTab, location.search, navigate, setSearchTerm, setCurrentTab, updateUrlParams]);
 
   return { updateUrlParams };
 };

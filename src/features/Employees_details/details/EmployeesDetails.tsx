@@ -9,7 +9,7 @@ import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
 import { Employer } from '../../../entities/Employees';
 import { RootState, AppDispatch } from '../../../redux/store/store';
 
-import star from '../../../assets/stars.png';
+import stars from '../../../assets/stars.png';
 
 import phone from '../../../assets/phone.png';
 import right_arrow from '../../../assets/right_arrow.png';
@@ -68,7 +68,7 @@ const EmployeesDetails: React.FC = () => {
       {employee && (
         <Box>
           <Box className="worker-details__details-item">
-            <img src={star} alt="Birthday" />
+            <img src={stars} alt="Birthday" />
             <Typography variant="body1">
               {moment(employee.birthDate).format('D MMMM YYYY')}
             </Typography>

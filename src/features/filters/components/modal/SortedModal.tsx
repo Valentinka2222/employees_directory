@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Divider, Collapse, useMediaQuery, Modal, Box } from '@mui/material';
+import { Divider, Collapse, useMediaQuery, Modal } from '@mui/material';
 import type { SortOrder } from '../../../../entities/Employees';
 import styled from 'styled-components';
 import ModalInner from './ModalInner';

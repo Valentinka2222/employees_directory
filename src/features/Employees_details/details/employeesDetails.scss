@@ -8,12 +8,9 @@
     align-items: center;
     padding-left: 24px;
 
-    a {
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      align-items: center;
-
+    button {
+      border: none;
+      background: transparent;
       img {
         height: 24px;
       }

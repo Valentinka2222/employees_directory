@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link as Lnk } from 'react-router-dom';
+import { Link as Lnk, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Stack, Typography, Box, Tabs, Tab, Skeleton, Divider } from '@mui/material';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
@@ -40,6 +40,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
   const theme = useTheme();
   const dispatch: AppDispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('All');
+  const location = useLocation();
 
   const { employees, loading, error } = useSelector((state: RootState) => state.employees);
 
@@ -106,7 +107,6 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
           </Tabs>
         </Box>
 
-        {/* Loading state */}
         {loading && (
           <Stack className="loading-placeholder" sx={{ padding: 2 }}>
             {skeletonArray.map((_, index) => (
@@ -121,18 +121,16 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
           </Stack>
         )}
 
-        {/* Error state */}
         {error && <UnexpectedError />}
 
-        {/* No results found */}
         {showError && <ErrorNotFound />}
 
-        {/* Display filtered workers */}
         {!showError && !loading && !error && (
           <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
             {filteredSortedWorkers.map((employee: Employer) => (
               <Lnk
                 to={`/workers/${employee.id.toString()}`}
+                state={{ from: location }}
                 key={employee.id}
                 className="worker-list__item no-underline"
               >
@@ -174,8 +172,6 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
                     </Typography>
                   </Stack>
                 </Stack>
-                {/* Divider with centered date of birth */}
-
                 <Divider sx={{ width: '100%' }} textAlign="center">
                   <Typography variant="body2" color="text.secondary">
                     {moment(employee.birthDate).format('YYYY')}

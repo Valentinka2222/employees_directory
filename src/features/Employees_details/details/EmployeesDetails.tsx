@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-import { useParams, Link } from 'react-router-dom';
-
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Stack, Typography, Avatar } from '@mui/material';
 
 import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
@@ -17,18 +16,26 @@ const EmployeesDetails: React.FC = () => {
   const { employees } = useSelector((state: RootState) => state.employees);
   const employee = employees.find((employee: Employer) => employee.id === id);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const currentTab = queryParams.get('tab');
+
   useEffect(() => {
     if (!employees.length) {
       dispatch(fetchWorkersAction());
     }
   }, [dispatch, employees]);
 
+  const handleGoBack = () => navigate(location.state?.from || `/?tab=${currentTab}`);
+
   return (
     <Box className="worker-details">
       <Box className="worker-details__header">
-        <Link to="/">
+        <button onClick={handleGoBack}>
           <img src="/images/right_arrow.png" alt="Go back" />
-        </Link>
+        </button>
       </Box>
       {employee && (
         <Stack className="worker-details__info-card" spacing={2}>

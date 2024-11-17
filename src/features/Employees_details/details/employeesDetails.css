@@ -10,14 +10,12 @@
   padding-left: 24px;
 }
 
-.worker-details__header a {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  align-items: center;
+.worker-details__header button {
+  border: none;
+  background: transparent;
 }
 
-.worker-details__header a img {
+.worker-details__header button img {
   height: 24px;
 }
 

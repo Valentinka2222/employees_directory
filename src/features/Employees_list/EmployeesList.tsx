@@ -37,6 +37,8 @@ interface EmployeesListProps {
 }
 
 const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, setSearchTerm }) => {
+  const showBirthdateLine = sortOrder === 'birthDate';
+
   const theme = useTheme();
   const dispatch: AppDispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('All');
@@ -90,6 +92,8 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
 
   const skeletonArray = Array.from(new Array(6));
 
+  const renderedBirthDates = new Set<string>();
+
   return (
     <ThemeProvider theme={theme}>
       <Box className="workers-list-container">
@@ -127,58 +131,67 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
 
         {!showError && !loading && !error && (
           <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
-            {filteredSortedWorkers.map((employee: Employer) => (
-              <Lnk
-                to={`/workers/${employee.id.toString()}`}
-                state={{ from: location }}
-                key={employee.id}
-                className="worker-list__item no-underline"
-              >
-                <Stack
-                  key={employee.id}
-                  className="worker-list__item"
-                  direction="row"
-                  spacing={2}
-                  alignItems="center"
-                >
-                  <Avatar
-                    className="worker-list__item-avatar"
-                    alt={employee.name}
-                    src={employee.avatar}
-                  />
-                  <Stack direction="column">
-                    <Typography
-                      className="worker-list__item-details-name"
-                      variant="subtitle1"
-                      color="text.primary"
+            {filteredSortedWorkers.map((employee: Employer) => {
+              const birthDateKey = moment(employee.birthDate).format('YYYY-MM-DD');
+              const showDateLine = showBirthdateLine && !renderedBirthDates.has(birthDateKey);
+              if (showDateLine) renderedBirthDates.add(birthDateKey);
+
+              return (
+                <React.Fragment key={employee.id}>
+                  <Lnk
+                    to={`/workers/${employee.id.toString()}`}
+                    state={{ from: location }}
+                    className="worker-list__item no-underline"
+                  >
+                    <Stack
+                      key={employee.id}
+                      className="worker-list__item"
+                      direction="row"
+                      spacing={2}
+                      alignItems="center"
                     >
-                      {employee.name}{' '}
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        color="text.secondary"
-                        className="worker-list__item-details-tag"
-                      >
-                        {employee.tag}
+                      <Avatar
+                        className="worker-list__item-avatar"
+                        alt={employee.name}
+                        src={employee.avatar}
+                      />
+                      <Stack direction="column">
+                        <Typography
+                          className="worker-list__item-details-name"
+                          variant="subtitle1"
+                          color="text.primary"
+                        >
+                          {employee.name}{' '}
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            color="text.secondary"
+                            className="worker-list__item-details-tag"
+                          >
+                            {employee.tag}
+                          </Typography>
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {employee.position}
+                        </Typography>
+                      </Stack>
+                      <Stack className="worker-list__item-details-birthday">
+                        <Typography variant="body2">
+                          {moment(employee.birthDate).format('DD MMM')}
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </Lnk>
+                  {showDateLine && (
+                    <Divider sx={{ width: '100%' }} textAlign="center">
+                      <Typography variant="body2" color="text.secondary">
+                        {moment(employee.birthDate).format('YYYY')}
                       </Typography>
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {employee.position}
-                    </Typography>
-                  </Stack>
-                  <Stack className="worker-list__item-details-birthday">
-                    <Typography variant="body2">
-                      {moment(employee.birthDate).format('DD MMM')}
-                    </Typography>
-                  </Stack>
-                </Stack>
-                <Divider sx={{ width: '100%' }} textAlign="center">
-                  <Typography variant="body2" color="text.secondary">
-                    {moment(employee.birthDate).format('YYYY')}
-                  </Typography>
-                </Divider>
-              </Lnk>
-            ))}
+                    </Divider>
+                  )}
+                </React.Fragment>
+              );
+            })}
           </Stack>
         )}
       </Box>

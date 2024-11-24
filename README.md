@@ -4,7 +4,7 @@
 
 # Employees Directory
 
-**Employees Directory** is a React and Redux-based application designed to provide a comprehensive view of employees across different departments within a company. The app offers functionalities to filter employees by departments, view detailed employee profiles, and sort or filter based on various criteria, such as age. This tool is ideal for quickly locating team members and reviewing organizational structure.You can view the live app here: <a href="https://employees-dir.netlify.app/" target="_blank">Employees Directory on Netlify</a>
+**Employees Directory** is a React and Redux-based application designed to provide a comprehensive view of employees across different departments within a company. The app offers functionalities to filter employees by departments, view detailed employee profiles, and sort or filter based on various criteria, such as age. This tool is ideal for quickly locating team members and reviewing organizational structure.You can view the live app here: <a href="https://employees-dir.netlify.app/?tab=All" target="_blank">Employees Directory on Netlify</a>
 
 ## Features
 
@@ -26,7 +26,6 @@
 1. Clone the repository: git clone https://github.com/Valentinka2222/employees_directory.git
 2. Install dependencies: cd employee-directory npm instal
 3. Run the app locally: npm start
-
 
 ## Usage
 
@@ -54,5 +53,3 @@
 ## Contributing
 
 Feel free to submit issues, suggestions, or pull requests! This project welcomes contributions to improve functionality and usability.
-
-

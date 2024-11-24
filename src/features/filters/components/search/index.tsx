@@ -3,7 +3,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { TextField, IconButton, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
-import SortedModal from '../modal/SortedModal';
+import SortedModal from '../sortedDialog';
 
 import { EmployeesList } from '../../../../entities/Employees';
 

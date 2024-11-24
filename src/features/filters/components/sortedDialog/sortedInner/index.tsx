@@ -2,9 +2,9 @@ import React from 'react';
 import { IconButton, Radio, FormControlLabel, Typography } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
-import type { SortOrder } from '../../../../entities/Employees';
+import type { SortOrder } from '../../../../../entities/Employees';
 
-import './modal.scss';
+import '../sort.scss';
 
 interface ModalInnerProps {
   handleClose: () => void;

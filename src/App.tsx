@@ -6,9 +6,9 @@ import { Box, Typography, CssBaseline } from '@mui/material';
 
 import Search from './features/filters/components/search/index';
 import theme from './theme';
-import EmployeesList from './features/Employees_list/EmployeesList';
+import EmployeesList from './features/Employees_list';
 import Page404 from './features/errors/Page404';
-import EmployeesDetails from './features/Employees_list/Employees_details/EmployeesDetails';
+import EmployeesDetails from './features/Employees_list/Employees_details/index';
 import type { SortOrder } from './entities/Employees';
 
 import './index.scss';

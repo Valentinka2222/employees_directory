@@ -3,9 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Divider, Collapse, useMediaQuery, Modal } from '@mui/material';
 import type { SortOrder } from '../../../../entities/Employees';
 import styled from 'styled-components';
-import ModalInner from './ModalInner';
+import ModalInner from './sortedInner';
 
-import './modal.scss';
+import './sort.scss';
 
 interface SortedModalProps {
   sortOrder: SortOrder;

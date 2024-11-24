@@ -90,7 +90,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
   const showError =
     (searchTerm && filteredSortedWorkers.length === 0) || filteredSortedWorkers.length === 0;
 
-  const skeletonArray = Array.from(new Array(6));
+  const skeletonArray = Array.from(new Array(12));
 
   const renderedBirthDates = new Set<string>();
 
@@ -111,10 +111,16 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
           </Tabs>
         </Box>
 
-        {loading && (
-          <Stack className="loading-placeholder" sx={{ padding: 2 }}>
+        {loading && !error && (
+          <Stack className="loading-placeholder">
             {skeletonArray.map((_, index) => (
-              <Stack key={index} direction="row" spacing={2} alignItems="center">
+              <Stack
+                className="loading-placeholder_item"
+                key={index}
+                direction="row"
+                spacing={2}
+                alignItems="center"
+              >
                 <Skeleton variant="circular" width={72} height={72} />
                 <Stack direction="column">
                   <Skeleton variant="text" width={150} height={28} />
@@ -127,7 +133,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
 
         {error && <UnexpectedError />}
 
-        {showError && <ErrorNotFound />}
+        {showError && !loading && !error && <ErrorNotFound />}
 
         {!showError && !loading && !error && (
           <Stack direction="column" spacing={2} sx={{ padding: 2 }}>

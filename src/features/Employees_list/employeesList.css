@@ -6,7 +6,6 @@
 
 .loading-placeholder {
   display: flex;
-  flex-direction: column;
 }
 
 .worker-list {

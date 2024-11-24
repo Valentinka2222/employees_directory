@@ -7,6 +7,11 @@
 .loading-placeholder {
   display: flex;
   flex-direction: column;
+
+  &.MuiStack-root .css-1s6j5m-MuiStack-root {
+    padding: 6px 16px;
+    margin: 2px 0;
+  }
 }
 
 .worker-list {

@@ -1,20 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Box, Stack, Typography, Avatar } from '@mui/material';
+import { Box, Stack, Typography, Avatar, CircularProgress } from '@mui/material';
 
 import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
 import { Employer } from '../../../entities/Employees';
 import { RootState, AppDispatch } from '../../../redux/store/store';
+
+import ErrorNotFound from '../../errors/NotFound';
 
 import './employeesDetails.scss';
 
 const EmployeesDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch: AppDispatch = useDispatch();
-  const { employees } = useSelector((state: RootState) => state.employees);
-  const employee = employees.find((employee: Employer) => employee.id === id);
+  const { employees, loading, error } = useSelector((state: RootState) => state.employees);
+  const [employeeNotFound, setEmployeeNotFound] = useState(false);
+
+  const employee = employees.find((employee: Employer) => employee.id.toString() === id);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,7 +32,17 @@ const EmployeesDetails: React.FC = () => {
     }
   }, [dispatch, employees]);
 
+  useEffect(() => {
+    if (employee === undefined) {
+      setEmployeeNotFound(true);
+    }
+  }, [employee]);
+
   const handleGoBack = () => navigate(location.state?.from || `/?tab=${currentTab}`);
+
+  if (employeeNotFound) {
+    return <ErrorNotFound />;
+  }
 
   return (
     <Box className="worker-details">
@@ -37,7 +51,23 @@ const EmployeesDetails: React.FC = () => {
           <img src="/images/right_arrow.png" alt="Go back" />
         </button>
       </Box>
-      {employee && (
+
+      {loading && !employee && (
+        <Stack alignItems="center" justifyContent="center" spacing={2}>
+          <CircularProgress />
+          <Typography>Loading...</Typography>
+        </Stack>
+      )}
+
+      {error && (
+        <Stack alignItems="center" justifyContent="center" spacing={2}>
+          <Typography variant="h6" color="error">
+            Something went wrong. Please try again later.
+          </Typography>
+        </Stack>
+      )}
+
+      {employee && !loading && !error && (
         <Stack className="worker-details__info-card" spacing={2}>
           <Avatar alt={employee.name} src={employee.avatar} />
           <Stack direction="column">
@@ -67,6 +97,7 @@ const EmployeesDetails: React.FC = () => {
           </Stack>
         </Stack>
       )}
+
       {employee && (
         <Box>
           <Box className="worker-details__details-item">

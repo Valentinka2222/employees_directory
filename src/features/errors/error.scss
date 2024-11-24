@@ -4,6 +4,10 @@
   padding: 16px;
   margin-top: 149px;
 
+  .css-1cv0b2x-MuiTypography-root {
+    margin: 12px 0;
+  }
+
   &__image {
     width: 56px;
     height: 56px;
@@ -11,7 +15,7 @@
 
   &__title {
     font-weight: 600;
-    margin-bottom: 15px;
+    line-height: 22px;
 
     @media (max-width: 375px) {
       font-size: 18px;
@@ -19,12 +23,11 @@
   }
 
   &__text {
-    margin-bottom: 15px;
+    line-height: 20px;
   }
 
   &__reload-link {
     color: #6534ff;
-    margin: 0;
     font-weight: 600;
     line-height: 20px;
     cursor: pointer;

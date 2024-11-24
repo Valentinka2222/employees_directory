@@ -5,6 +5,10 @@
   margin-top: 149px;
 }
 
+.error-box .css-1cv0b2x-MuiTypography-root {
+  margin: 12px 0;
+}
+
 .error-box__image {
   width: 56px;
   height: 56px;
@@ -12,7 +16,7 @@
 
 .error-box__title {
   font-weight: 600;
-  margin-bottom: 15px;
+  line-height: 22px;
 }
 
 @media (max-width: 375px) {
@@ -22,12 +26,11 @@
 }
 
 .error-box__text {
-  margin-bottom: 15px;
+  line-height: 20px;
 }
 
 .error-box__reload-link {
   color: #6534ff;
-  margin: 0;
   font-weight: 600;
   line-height: 20px;
   cursor: pointer;

@@ -7,10 +7,12 @@
     display: flex;
     align-items: center;
     padding-left: 24px;
+    background: #f7f7f8;
 
     button {
       border: none;
       background: transparent;
+      cursor: pointer;
       img {
         height: 24px;
       }
@@ -64,7 +66,6 @@
       height: 60px;
 
       img {
-        height: 24px;
         margin-right: 8px;
       }
 

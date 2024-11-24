@@ -7,6 +7,7 @@ import { Box, Typography, CssBaseline } from '@mui/material';
 import Search from './features/filters/components/inputs/Search';
 import theme from './theme';
 import EmployeesList from './features/Employees_list/EmployeesList';
+import Page404 from './features/errors/Page404';
 import EmployeesDetails from './features/Employees_details/details/EmployeesDetails';
 import type { SortOrder } from './entities/Employees';
 
@@ -56,6 +57,7 @@ export default function App() {
                 }
               />
               <Route path="/workers/:id" element={<EmployeesDetails />} />
+              <Route path="*" element={<Page404 />} />
             </Routes>
           </main>
         </div>

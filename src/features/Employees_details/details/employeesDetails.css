@@ -8,11 +8,13 @@
   display: flex;
   align-items: center;
   padding-left: 24px;
+  background: #f7f7f8;
 }
 
 .worker-details__header button {
   border: none;
   background: transparent;
+  cursor: pointer;
 }
 
 .worker-details__header button img {
@@ -68,7 +70,6 @@
 }
 
 .worker-details__details-item img {
-  height: 24px;
   margin-right: 8px;
 }
 

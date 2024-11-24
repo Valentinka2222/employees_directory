@@ -1,35 +1,7 @@
 .workers-list-container {
   width: 100%;
   padding: 0 16px;
-}
-
-.error-box {
-  text-align: center;
-  margin: auto;
-  padding: 16px;
-  margin-top: 149px;
-}
-
-.error-box__image {
-  width: 56px;
-  height: 56px;
-}
-
-.error-box__title {
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-
-.error-box__text {
-  margin-bottom: 15px;
-}
-
-.error-box__reload-link {
-  color: #6534ff;
-  margin: 0;
-  font-weight: 600;
-  line-height: 20px;
-  cursor: pointer;
+  font-family: Intel;
 }
 
 .loading-placeholder {

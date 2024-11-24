@@ -4,11 +4,11 @@ import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { Box, Typography, CssBaseline } from '@mui/material';
 
-import Search from './features/filters/components/inputs/Search';
+import Search from './features/filters/components/search/index';
 import theme from './theme';
 import EmployeesList from './features/Employees_list/EmployeesList';
 import Page404 from './features/errors/Page404';
-import EmployeesDetails from './features/Employees_details/details/EmployeesDetails';
+import EmployeesDetails from './features/Employees_list/Employees_details/EmployeesDetails';
 import type { SortOrder } from './entities/Employees';
 
 import './index.scss';

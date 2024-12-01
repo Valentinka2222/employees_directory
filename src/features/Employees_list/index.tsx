@@ -181,11 +181,13 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
                           {employee.position}
                         </Typography>
                       </Stack>
-                      <Stack className="worker-list__item-details-birthday">
-                        <Typography variant="body2">
-                          {moment(employee.birthDate).format('DD MMM')}
-                        </Typography>
-                      </Stack>
+                      {showDateLine && (
+                        <Stack className="worker-list__item-details-birthday">
+                          <Typography variant="body2">
+                            {moment(employee.birthDate).format('DD MMM')}
+                          </Typography>
+                        </Stack>
+                      )}
                     </Stack>
                   </Lnk>
                   {showDateLine && (
@@ -209,7 +211,7 @@ function sortWorkers(employees: Employees, sortOrder: SortOrder): Employees {
   return [...employees].sort((a: Employer, b: Employer) =>
     sortOrder === 'name'
       ? a.name.localeCompare(b.name)
-      : new Date(a.birthDate).getTime() - new Date(b.birthDate).getTime(),
+      : moment(a.birthDate).valueOf() - moment(b.birthDate).valueOf(),
   );
 }
 

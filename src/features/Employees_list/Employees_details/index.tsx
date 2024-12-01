@@ -17,7 +17,6 @@ const EmployeesDetails: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { employees, loading, error } = useSelector((state: RootState) => state.employees);
   const [employeeNotFound, setEmployeeNotFound] = useState(false);
-
   const employee = employees.find((employee: Employer) => employee.id.toString() === id);
 
   const navigate = useNavigate();
@@ -27,22 +26,17 @@ const EmployeesDetails: React.FC = () => {
   const currentTab = queryParams.get('tab');
 
   useEffect(() => {
-    if (!employees.length) {
-      dispatch(fetchWorkersAction());
-    }
+    if (!employees.length) dispatch(fetchWorkersAction());
   }, [dispatch, employees]);
 
-  useEffect(() => {
-    if (employee === undefined) {
-      setEmployeeNotFound(true);
-    }
-  }, [employee]);
+  useEffect(
+    () => (employee === undefined ? setEmployeeNotFound(true) : setEmployeeNotFound(false)),
+    [employee],
+  );
 
   const handleGoBack = () => navigate(location.state?.from || `/?tab=${currentTab}`);
 
-  if (employeeNotFound) {
-    return <ErrorNotFound />;
-  }
+  if (employeeNotFound) return <ErrorNotFound />;
 
   return (
     <Box className="worker-details">

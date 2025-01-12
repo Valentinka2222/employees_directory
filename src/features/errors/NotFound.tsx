@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch } from '../../redux/store/store';
 
-import './error.scss';
+import './index.scss';
 
 const ErrorNotFound = () => {
   const dispatch: AppDispatch = useDispatch();

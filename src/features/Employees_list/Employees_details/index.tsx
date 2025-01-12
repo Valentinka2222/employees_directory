@@ -10,7 +10,7 @@ import { RootState, AppDispatch } from '../../../redux/store/store';
 
 import ErrorNotFound from '../../errors/NotFound';
 
-import './employeesDetails.scss';
+import '../index.scss';
 
 const EmployeesDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

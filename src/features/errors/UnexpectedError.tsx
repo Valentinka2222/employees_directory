@@ -4,7 +4,7 @@ import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store/store';
 
-import './error.scss';
+import './index.scss';
 
 const UnexpectedError = () => {
   const dispatch: AppDispatch = useDispatch();

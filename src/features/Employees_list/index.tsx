@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link as Lnk, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Stack, Typography, Box, Tabs, Tab, Skeleton, Divider } from '@mui/material';
+import { Avatar, Stack, Typography, Box, Tabs, Skeleton, Divider } from '@mui/material';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
-import styled from 'styled-components';
+
 import moment from 'moment';
 
 import useSearchTab from '../../hooks/useSearchTab';
@@ -15,20 +15,8 @@ import UnexpectedError from '../errors/UnexpectedError';
 import ErrorNotFound from '../errors/NotFound';
 import useSearchInput from '../../hooks/useSearchInput';
 
-import './employeesList.scss';
-
-const StyledTab = styled(Tab)`
-  text-transform: none;
-  font-weight: ${({ theme }) => theme.typography.fontWeightRegular};
-  font-size: ${({ theme }) => theme.typography.pxToRem(15)};
-  margin-right: ${({ theme }) => theme.spacing(1)};
-  height: 36px;
-  color: ${({ theme }) => theme.palette.text.secondary};
-  &.Mui-selected {
-    font-weight: ${({ theme }) => theme.typography.fontWeightMedium};
-    color: ${({ theme }) => theme.palette.text.primary};
-  }
-`;
+import './index.scss';
+import StyledTab from './index.styled';
 
 interface EmployeesListProps {
   sortOrder: SortOrder;

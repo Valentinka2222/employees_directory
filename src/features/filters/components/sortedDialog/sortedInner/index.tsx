@@ -4,7 +4,7 @@ import { IconButton, Radio, FormControlLabel, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import type { SortOrder } from '../../../../../entities/Employees';
 
-import '../sort.scss';
+import '../index.scss';
 
 interface ModalInnerProps {
   handleClose: () => void;

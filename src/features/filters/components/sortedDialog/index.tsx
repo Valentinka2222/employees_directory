@@ -5,7 +5,7 @@ import type { SortOrder } from '../../../../entities/Employees';
 import styled from 'styled-components';
 import ModalInner from './sortedInner';
 
-import './sort.scss';
+import './index.scss';
 
 interface SortedModalProps {
   sortOrder: SortOrder;

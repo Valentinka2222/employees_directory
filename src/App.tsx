@@ -12,7 +12,6 @@ import EmployeesDetails from './features/Employees_list/Employees_details/index'
 import type { SortOrder } from './entities/Employees';
 
 import './index.scss';
-import './App.scss';
 
 export default function App() {
   const [sortOrder, setSortOrder] = useState<SortOrder>('name');

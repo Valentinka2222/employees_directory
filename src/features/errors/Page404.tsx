@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
 import { AppDispatch } from '../../redux/store/store';
 
-import './error.scss';
+import './index.scss';
 
 const Page404 = () => {
   const dispatch: AppDispatch = useDispatch();

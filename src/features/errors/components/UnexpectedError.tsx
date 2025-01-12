@@ -1,39 +1,32 @@
 import { Typography, Box, Link } from '@mui/material';
+
+import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
-import { AppDispatch } from '../../redux/store/store';
+import { AppDispatch } from '../../../redux/store/store';
 
-import './index.scss';
+import '../index.scss';
 
-const Page404 = () => {
+const UnexpectedError = () => {
   const dispatch: AppDispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleReload = () => {
-    dispatch(fetchWorkersAction());
-    navigate('/');
-  };
 
   return (
     <Box className="error-box">
       <img className="error-box__image" src="/images/ufo.png" alt="Error occurred" />
       <Typography variant="h5" className="error-box__title">
-        Some superintelligence broke everything...
+        Unexpected error occurred...
       </Typography>
       <Typography variant="body1" color="text.secondary" className="error-box__text">
-        We will try to fix it quickly. Try again a bit later.
+        Try again a bit later.
       </Typography>
       <Link
-        onClick={handleReload}
+        onClick={() => dispatch(fetchWorkersAction())}
         component="button"
         underline="none"
         className="error-box__reload-link"
       >
-        Try again
+        Reload Page
       </Link>
     </Box>
   );
 };
-
-export default Page404;
+export default UnexpectedError;

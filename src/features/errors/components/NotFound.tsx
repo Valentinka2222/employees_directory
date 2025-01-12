@@ -1,10 +1,10 @@
 import { Typography, Box, Link } from '@mui/material';
-import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
+import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch } from '../../redux/store/store';
+import { AppDispatch } from '../../../redux/store/store';
 
-import './index.scss';
+import '../index.scss';
 
 const ErrorNotFound = () => {
   const dispatch: AppDispatch = useDispatch();

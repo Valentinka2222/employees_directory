@@ -4,13 +4,13 @@ import moment from 'moment';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Stack, Typography, Avatar, CircularProgress } from '@mui/material';
 
-import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
-import { Employer } from '../../../entities/Employees';
-import { RootState, AppDispatch } from '../../../redux/store/store';
+import { fetchWorkersAction } from './../../../../redux/reducer/employeersReducer';
+import { Employer } from './../../../../entities/Employees';
+import { RootState, AppDispatch } from './../../../../redux/store/store';
 
-import ErrorNotFound from '../../errors/NotFound';
+import ErrorNotFound from '../../../errors/components/NotFound';
 
-import '../index.scss';
+import '../../index.scss';
 
 const EmployeesDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

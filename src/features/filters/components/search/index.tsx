@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SortIcon from '@mui/icons-material/Sort';
 import SortedModal from '../sortedDialog';
 
-import { EmployeesList } from '../../../../entities/Employees';
+import type { EmployeesList } from '../../../../entities/Employees';
 
 import useSearchFilter from '../../../../hooks/useSearchFilter';
 

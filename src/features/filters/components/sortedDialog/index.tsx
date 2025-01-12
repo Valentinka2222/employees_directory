@@ -7,7 +7,7 @@ import ModalInner from './sortedInner';
 
 import './index.scss';
 
-interface SortedModalProps {
+type SortedModalProps = {
   sortOrder: SortOrder;
   isOpened: boolean;
   expanded: boolean;
@@ -15,7 +15,7 @@ interface SortedModalProps {
   setIsOpened: (isOpened: boolean) => void;
   setExpanded: (expanded: boolean) => void;
   handleClear: () => void;
-}
+};
 
 const StyledModalContent = styled.div<{ expanded: boolean; isMobile: boolean }>`
   background-color: ${({ theme }) => theme.palette.background.paper};

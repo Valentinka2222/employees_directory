@@ -10,7 +10,7 @@ import useSearchTab from '../../hooks/useSearchTab';
 import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
 import { RootState, AppDispatch } from '../../redux/store/store';
 import { tab_names } from '../../data/tab';
-import { SortOrder, Employer, Employees } from '../../entities/Employees';
+import type { SortOrder, Employer, Employees } from '../../entities/Employees';
 import UnexpectedError from '../errors/components/UnexpectedError';
 import ErrorNotFound from '../errors/components/NotFound';
 import useSearchInput from '../../hooks/useSearchInput';

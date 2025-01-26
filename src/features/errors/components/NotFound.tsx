@@ -13,11 +13,9 @@ const ErrorNotFound = () => {
 
   const handleReload = () => {
     const params = new URLSearchParams(location.search);
-
     const currentTab = params.get('tab') || 'All';
     params.set('tab', currentTab);
     params.delete('search');
-
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
     dispatch(fetchWorkersAction());
   };

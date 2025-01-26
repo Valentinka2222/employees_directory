@@ -16,21 +16,16 @@ interface ModalInnerProps {
 const ModalInner: React.FC<ModalInnerProps> = ({ handleClose, handleSortChange }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentSortOrder, setCurrentSortOrder] = useState<SortOrder>('birthDate'); // Default to 'birthDate'
+  const [currentSortOrder, setCurrentSortOrder] = useState<SortOrder>('birthDate');
 
   useEffect(() => {
-    // Read sortOrder from query params when modal opens, use 'birthDate' as default if not present
     const queryParams = new URLSearchParams(location.search);
     const sortQuery = queryParams.get('sortOrder') as SortOrder;
-    if (sortQuery) {
-      setCurrentSortOrder(sortQuery); // Set the sort order if available in query params
-    } else {
-      setCurrentSortOrder('birthDate'); // Default to 'birthDate'
-    }
+    if (sortQuery) setCurrentSortOrder(sortQuery);
+    else setCurrentSortOrder('birthDate');
   }, [location.search]);
 
   const updateSortOrderInUrl = (newSortOrder: SortOrder) => {
-    // Update the query parameter with the new sortOrder
     const queryParams = new URLSearchParams(location.search);
     queryParams.set('sortOrder', newSortOrder);
     navigate(`?${queryParams.toString()}`, { replace: true });
@@ -38,9 +33,9 @@ const ModalInner: React.FC<ModalInnerProps> = ({ handleClose, handleSortChange }
 
   const onSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSortOrder = event.target.value as SortOrder;
-    setCurrentSortOrder(newSortOrder); // Update local state
-    handleSortChange(event); // Call parent handler (if needed)
-    updateSortOrderInUrl(newSortOrder); // Update URL query parameter
+    setCurrentSortOrder(newSortOrder);
+    handleSortChange(event);
+    updateSortOrderInUrl(newSortOrder);
   };
 
   return (

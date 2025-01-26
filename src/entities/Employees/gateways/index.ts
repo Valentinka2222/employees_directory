@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Employees } from '../entities/Employees';
+import { Employees } from '../../Employees/types/index';
 
 export const getAllEmployeers = async (): Promise<Employees> => {
   const response = await axios.get<Employees>(

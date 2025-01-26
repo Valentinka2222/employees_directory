@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import { getAllEmployeers } from '../../api/getAllEmployeersApi';
+import { getAllEmployeers } from '../../entities/Employees/gateways/index';
 import {
   FETCH_EMPLOYEES_REQUEST,
   FETCH_EMPLOYEES_SUCCESS,

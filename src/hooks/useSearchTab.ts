@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { tab_names } from '../data/tab';
+import { tab_names } from '../features/filters/components/PositionTabs/config/index';
 
 interface UseSearchTabProps {
   setSearchTerm: (term: string) => void;

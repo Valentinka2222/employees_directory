@@ -1,7 +1,7 @@
 import { Typography, Box, Link } from '@mui/material';
 import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AppDispatch } from '../../../redux/store/store';
 
 import '../index.scss';
@@ -9,11 +9,19 @@ import '../index.scss';
 const ErrorNotFound = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleReload = () => {
+    const params = new URLSearchParams(location.search);
+
+    const currentTab = params.get('tab') || 'All';
+    params.set('tab', currentTab);
+    params.delete('search');
+
+    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
     dispatch(fetchWorkersAction());
-    navigate('/');
   };
+
   return (
     <Box className="error-box">
       <img src="/images/icon_search.png" alt="No workers found" className="error-box__image" />
@@ -24,7 +32,7 @@ const ErrorNotFound = () => {
         Try to adjust your request
       </Typography>
       <Link
-        onClick={() => handleReload()}
+        onClick={handleReload}
         component="button"
         underline="none"
         className="error-box__reload-link"
@@ -34,4 +42,5 @@ const ErrorNotFound = () => {
     </Box>
   );
 };
+
 export default ErrorNotFound;

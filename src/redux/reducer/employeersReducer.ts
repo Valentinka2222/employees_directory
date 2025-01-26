@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getAllEmployeers } from '../../api/getAllEmployeersApi';
-import { Employees, EmployeesState } from '../../entities/Employees';
+import { getAllEmployeers } from '../../entities/Employees/gateways/index';
+import { Employees, EmployeesState } from '../../entities/Employees/types/index';
 
 const initialState: EmployeesState = {
   loading: false,

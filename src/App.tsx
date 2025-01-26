@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
@@ -9,14 +8,10 @@ import theme from './theme';
 import EmployeesList from './features/Employees_list';
 import Page404 from './features/errors/components/Page404';
 import EmployeesDetails from './features/Employees_list/components/Employees_details/index';
-import type { SortOrder } from './entities/Employees';
 
 import './index.scss';
 
 export default function App() {
-  const [sortOrder, setSortOrder] = useState<SortOrder>('name');
-  const [searchTerm, setSearchTerm] = useState<string>('');
-
   const location = useLocation();
 
   const shouldDisplayHeader = location.pathname === '/';
@@ -34,27 +29,13 @@ export default function App() {
               </Typography>
 
               <Box className="search-container">
-                <Search
-                  setSearchTerm={setSearchTerm}
-                  sortOrder={sortOrder}
-                  setSortOrder={setSortOrder}
-                  searchTerm={searchTerm}
-                />
+                <Search />
               </Box>
             </header>
           )}
           <main>
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <EmployeesList
-                    sortOrder={sortOrder}
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                  />
-                }
-              />
+              <Route path="/" element={<EmployeesList />} />
               <Route path="/workers/:id" element={<EmployeesDetails />} />
               <Route path="*" element={<Page404 />} />
             </Routes>

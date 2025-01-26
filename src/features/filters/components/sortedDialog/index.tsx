@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Divider, Collapse, useMediaQuery, Modal } from '@mui/material';
-import type { SortOrder } from '../../../../entities/Employees';
+import type { SortOrder } from '../../../../entities/Employees/types/index';
 import styled from 'styled-components';
 import ModalInner from './sortedInner';
 
 import './index.scss';
 
 type SortedModalProps = {
-  sortOrder: SortOrder;
   isOpened: boolean;
   expanded: boolean;
-  setSortOrder: (order: SortOrder) => void;
   setIsOpened: (isOpened: boolean) => void;
   setExpanded: (expanded: boolean) => void;
   handleClear: () => void;
@@ -30,10 +28,8 @@ const StyledModalContent = styled.div<{ expanded: boolean; isMobile: boolean }>`
 `;
 
 const SortedModal: React.FC<SortedModalProps> = ({
-  sortOrder,
   isOpened,
   expanded,
-  setSortOrder,
   setIsOpened,
   setExpanded,
   handleClear,
@@ -42,6 +38,8 @@ const SortedModal: React.FC<SortedModalProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
+  const currentSortOrder = (new URLSearchParams(location.search).get('sort') as SortOrder) || '';
+
   useEffect(() => {
     if (isMobile) {
       setIsOpened(true);
@@ -49,16 +47,10 @@ const SortedModal: React.FC<SortedModalProps> = ({
     }
   }, [isMobile, setIsOpened, setExpanded]);
 
-  const updateUrlWithSort = (sort: SortOrder) => {
+  const handleSortChange = (newSortOrder: SortOrder) => {
     const searchParams = new URLSearchParams(location.search);
-    searchParams.set('sort', sort);
+    searchParams.set('sort', newSortOrder);
     navigate(`${location.pathname}?${searchParams.toString()}`, { replace: true });
-  };
-
-  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newSortOrder = event.target.value as SortOrder;
-    setSortOrder(newSortOrder);
-    updateUrlWithSort(newSortOrder);
   };
 
   const toggleExpand = () => setExpanded(!expanded);
@@ -83,8 +75,8 @@ const SortedModal: React.FC<SortedModalProps> = ({
               <Divider className="modal-content__inner-divider" />
               <ModalInner
                 handleClose={() => setExpanded(false)}
-                sortOrder={sortOrder}
-                handleSortChange={handleSortChange}
+                sortOrder={currentSortOrder}
+                handleSortChange={event => handleSortChange(event.target.value as SortOrder)}
               />
             </Collapse>
             <Divider className="modal-content__divider" />
@@ -92,8 +84,8 @@ const SortedModal: React.FC<SortedModalProps> = ({
         ) : (
           <ModalInner
             handleClose={() => setIsOpened(false)}
-            sortOrder={sortOrder}
-            handleSortChange={handleSortChange}
+            sortOrder={currentSortOrder}
+            handleSortChange={event => handleSortChange(event.target.value as SortOrder)}
           />
         )}
       </StyledModalContent>

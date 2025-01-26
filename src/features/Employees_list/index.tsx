@@ -1,36 +1,30 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link as Lnk, useLocation } from 'react-router-dom';
+import { Link as Lnk, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Stack, Typography, Box, Tabs, Skeleton, Divider } from '@mui/material';
+import { Avatar, Stack, Typography, Box, Skeleton, Divider } from '@mui/material';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 
 import moment from 'moment';
 
-import useSearchTab from '../../hooks/useSearchTab';
 import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
 import { RootState, AppDispatch } from '../../redux/store/store';
-import { tab_names } from '../../data/tab';
-import type { SortOrder, Employer, Employees } from '../../entities/Employees';
+import { tab_names } from '../filters/components/PositionTabs/config/index';
+import type { SortOrder, Employer, Employees } from '../../entities/Employees/types/index';
 import UnexpectedError from '../errors/components/UnexpectedError';
 import ErrorNotFound from '../errors/components/NotFound';
-import useSearchInput from '../../hooks/useSearchInput';
+import TabComponent from '../filters/components/PositionTabs';
 
 import './index.scss';
-import StyledTab from './index.styled';
 
-interface EmployeesListProps {
-  sortOrder: SortOrder;
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-}
-
-const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, setSearchTerm }) => {
-  const showBirthdateLine = sortOrder === 'birthDate';
-
+const EmployeesList: React.FC = () => {
   const theme = useTheme();
   const dispatch: AppDispatch = useDispatch();
-  const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('All');
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('All');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('birthDate');
 
   const { employees, loading, error } = useSelector((state: RootState) => state.employees);
 
@@ -38,18 +32,33 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
     dispatch(fetchWorkersAction());
   }, [dispatch]);
 
-  useSearchInput({ searchTerm, currentTab });
+  // Read query parameters from URL
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const searchQuery = queryParams.get('search') || '';
+    const tabQuery = (queryParams.get('tab') || 'All') as keyof typeof tab_names;
+    const sortQuery = (queryParams.get('sortOrder') || 'birthDate') as SortOrder;
 
-  const { updateUrlParams } = useSearchTab({ setSearchTerm, setCurrentTab, currentTab });
+    setSearchTerm(searchQuery);
+    setCurrentTab(tabQuery);
+    setSortOrder(sortQuery);
+  }, [location.search]);
+
+  // Update URL with query parameters
+  const updateUrlParams = useCallback(() => {
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.set('search', searchTerm);
+    queryParams.set('tab', currentTab);
+    queryParams.set('sortOrder', sortOrder);
+    navigate(`?${queryParams.toString()}`, { replace: true });
+  }, [searchTerm, currentTab, sortOrder, location.search, navigate]);
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: keyof typeof tab_names) => {
-      if (newValue !== currentTab) {
-        setCurrentTab(newValue);
-        updateUrlParams();
-      }
+      setCurrentTab(newValue);
+      updateUrlParams();
     },
-    [currentTab, updateUrlParams],
+    [updateUrlParams],
   );
 
   const filterAndSortWorkers = (
@@ -58,17 +67,18 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
     currentTab: keyof typeof tab_names,
   ): Employees => {
     const lowercasedSearchTerm = searchTerm.toLowerCase();
-    const filteredBySearchTerm = employees.filter(
-      (employee: Employer) =>
-        employee.name.toLowerCase().includes(lowercasedSearchTerm) ||
-        employee.email.toLowerCase().includes(lowercasedSearchTerm) ||
-        employee.tag.toLowerCase().includes(lowercasedSearchTerm),
-    );
+    const filteredBySearchTerm = employees.filter((employee: Employer) => {
+      const nameMatch = employee.name?.toLowerCase().includes(lowercasedSearchTerm);
+      const emailMatch = employee.email?.toLowerCase().includes(lowercasedSearchTerm);
+      const tagMatch = employee.tag?.toLowerCase().includes(lowercasedSearchTerm);
+
+      return nameMatch || emailMatch || tagMatch;
+    });
 
     return filteredBySearchTerm.filter(
       (employee: Employer) =>
         currentTab === 'All' ||
-        employee.position.toLowerCase() === tab_names[currentTab].toLowerCase(),
+        employee.position?.toLowerCase() === tab_names[currentTab]?.toLowerCase(),
     );
   };
 
@@ -86,17 +96,11 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
     <ThemeProvider theme={theme}>
       <Box className="workers-list-container">
         <Box className="worker-tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
-            indicatorColor="secondary"
-            variant="fullWidth"
-            value={currentTab}
-            onChange={handleTabChange}
-            aria-label="worker tabs"
-          >
-            {Object.keys(tab_names).map(tab => (
-              <StyledTab key={tab} label={tab} value={tab as keyof typeof tab_names} />
-            ))}
-          </Tabs>
+          <TabComponent
+            currentTab={currentTab}
+            handleTabChange={handleTabChange}
+            tabNames={tab_names}
+          />
         </Box>
 
         {loading && !error && (
@@ -127,7 +131,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ sortOrder, searchTerm, se
           <Stack direction="column" spacing={2} sx={{ padding: 2 }}>
             {filteredSortedWorkers.map((employee: Employer) => {
               const birthDateKey = moment(employee.birthDate).format('YYYY-MM-DD');
-              const showDateLine = showBirthdateLine && !renderedBirthDates.has(birthDateKey);
+              // Show birthdate line only if sorting by birthDate
+              const showDateLine =
+                sortOrder === 'birthDate' && !renderedBirthDates.has(birthDateKey);
               if (showDateLine) renderedBirthDates.add(birthDateKey);
 
               return (

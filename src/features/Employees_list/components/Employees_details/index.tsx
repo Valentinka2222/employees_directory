@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Stack, Typography, Avatar, CircularProgress } from '@mui/material';
 
 import { fetchWorkersAction } from './../../../../redux/reducer/employeersReducer';
-import { Employer } from './../../../../entities/Employees';
+import { Employer } from '../../../../entities/Employees/types/index';
 import { RootState, AppDispatch } from './../../../../redux/store/store';
 
 import ErrorNotFound from '../../../errors/components/NotFound';
@@ -16,8 +16,8 @@ const EmployeesDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch: AppDispatch = useDispatch();
   const { employees, loading, error } = useSelector((state: RootState) => state.employees);
-  const [employeeNotFound, setEmployeeNotFound] = useState(false);
-  const employee = employees.find((employee: Employer) => employee.id.toString() === id);
+
+  const employee = employees.find((employee: Employer) => employee.id.toString() === id) || null;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,14 +29,9 @@ const EmployeesDetails: React.FC = () => {
     if (!employees.length) dispatch(fetchWorkersAction());
   }, [dispatch, employees]);
 
-  useEffect(
-    () => (employee === undefined ? setEmployeeNotFound(true) : setEmployeeNotFound(false)),
-    [employee],
-  );
-
   const handleGoBack = () => navigate(location.state?.from || `/?tab=${currentTab}`);
 
-  if (employeeNotFound) return <ErrorNotFound />;
+  if (!loading && !employee) return <ErrorNotFound />;
 
   return (
     <Box className="worker-details">
@@ -61,51 +56,49 @@ const EmployeesDetails: React.FC = () => {
         </Stack>
       )}
 
-      {employee && !loading && !error && (
-        <Stack className="worker-details__info-card" spacing={2}>
-          <Avatar alt={employee.name} src={employee.avatar} />
-          <Stack direction="column">
+      {/* Employee Details Card */}
+      <Stack className="worker-details__info-card" spacing={2}>
+        <Avatar alt={employee?.name || ''} src={employee?.avatar || ''} />
+        <Stack direction="column">
+          <Typography
+            className="worker-details__info-card__name"
+            variant="subtitle2"
+            color="text.primary"
+          >
+            {employee?.name}{' '}
             <Typography
-              className="worker-details__info-card__name"
-              variant="subtitle2"
-              color="text.primary"
-            >
-              {employee.name}{' '}
-              <Typography
-                component="span"
-                variant="body2"
-                color="text.secondary"
-                className="worker-list__item-details-tag"
-              >
-                {employee.tag}
-              </Typography>
-            </Typography>
-            <Typography
-              className="worker-details__info-card__position"
-              textAlign="center"
+              component="span"
               variant="body2"
               color="text.secondary"
+              className="worker-list__item-details-tag"
             >
-              {employee.position}
+              {employee?.tag}
             </Typography>
-          </Stack>
+          </Typography>
+          <Typography
+            className="worker-details__info-card__position"
+            textAlign="center"
+            variant="body2"
+            color="text.secondary"
+          >
+            {employee?.position}
+          </Typography>
         </Stack>
-      )}
+      </Stack>
 
-      {employee && (
-        <Box>
-          <Box className="worker-details__details-item">
-            <img src="/images/stars.png" alt="Birthday" />
-            <Typography variant="body1">
-              {moment(employee.birthDate).format('D MMMM YYYY')}
-            </Typography>
-          </Box>
-          <Box className="worker-details__details-item">
-            <img src="/images/phone.png" alt="Phone" />
-            <Typography variant="body1">{employee.phone}</Typography>
-          </Box>
+      {/* Details Section */}
+      <Box>
+        <Box className="worker-details__details-item">
+          <img src="/images/stars.png" alt="Birthday" />
+          <Typography variant="body1">
+            {employee ? moment(employee.birthDate).format('D MMMM YYYY') : 'N/A'}
+          </Typography>
         </Box>
-      )}
+        <Box className="worker-details__details-item">
+          <img src="/images/phone.png" alt="Phone" />
+          <Typography variant="body1">{employee?.phone || 'N/A'}</Typography>
+        </Box>
+      </Box>
     </Box>
   );
 };

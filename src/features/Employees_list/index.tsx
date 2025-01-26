@@ -42,7 +42,10 @@ const EmployeesList: React.FC = () => {
     setSearchTerm(searchQuery);
     setCurrentTab(tabQuery);
     setSortOrder(sortQuery);
-  }, [location.search]);
+
+    // Ensure workers are fetched again when search or tab changes
+    dispatch(fetchWorkersAction());
+  }, [location.search, dispatch]); // Make sure to add `dispatch` as a dependency if it's used inside the effect
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: keyof typeof tab_names) => {

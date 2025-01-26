@@ -1,8 +1,8 @@
 import { Typography, Box, Link } from '@mui/material';
 import { fetchWorkersAction } from '../../../redux/reducer/employeersReducer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AppDispatch } from '../../../redux/store/store';
+import { RootState, AppDispatch } from '../../../redux/store/store';
 
 import '../index.scss';
 
@@ -10,12 +10,27 @@ const ErrorNotFound = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const { employees } = useSelector((state: RootState) => state.employees);
+
+  const filterEmployeesByTab = (employees: any[], currentTab: string) => {
+    if (currentTab === 'All') return employees;
+    return employees.filter(
+      employee => employee.position?.toLowerCase() === currentTab.toLowerCase(),
+    );
+  };
+  const currentTab = params.get('tab') || 'All';
+  const filteredEmployees = filterEmployeesByTab(employees, currentTab);
 
   const handleReload = () => {
-    const params = new URLSearchParams(location.search);
     const currentTab = params.get('tab') || 'All';
-    params.set('tab', currentTab);
+
     params.delete('search');
+
+    if (filteredEmployees.length === 0) params.set('tab', 'All');
+    else params.set('tab', currentTab);
+
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
     dispatch(fetchWorkersAction());
   };

@@ -8,9 +8,9 @@ import ModalInner from './sortedInner';
 import './index.scss';
 
 type SortedModalProps = {
-  isOpened: boolean;
+  isSortOpened: boolean;
   expanded: boolean;
-  setIsOpened: (isOpened: boolean) => void;
+  setisSortOpened: (isSortOpened: boolean) => void;
   setExpanded: (expanded: boolean) => void;
   handleClear: () => void;
 };
@@ -28,9 +28,9 @@ const StyledModalContent = styled.div<{ expanded: boolean; isMobile: boolean }>`
 `;
 
 const SortedModal: React.FC<SortedModalProps> = ({
-  isOpened,
+  isSortOpened,
   expanded,
-  setIsOpened,
+  setisSortOpened,
   setExpanded,
   handleClear,
 }) => {
@@ -42,10 +42,10 @@ const SortedModal: React.FC<SortedModalProps> = ({
 
   useEffect(() => {
     if (isMobile) {
-      setIsOpened(true);
+      setisSortOpened(true);
       setExpanded(false);
     }
-  }, [isMobile, setIsOpened, setExpanded]);
+  }, [isMobile, isSortOpened, setExpanded]);
 
   const handleSortChange = (newSortOrder: SortOrder) => {
     const searchParams = new URLSearchParams(location.search);
@@ -57,7 +57,7 @@ const SortedModal: React.FC<SortedModalProps> = ({
 
   return (
     <Modal
-      open={isOpened}
+      open={isSortOpened}
       onClose={isMobile ? undefined : handleClear}
       BackdropProps={{
         invisible: isMobile,
@@ -83,7 +83,7 @@ const SortedModal: React.FC<SortedModalProps> = ({
           </>
         ) : (
           <ModalInner
-            handleClose={() => setIsOpened(false)}
+            handleClose={() => setisSortOpened(false)}
             sortOrder={currentSortOrder}
             handleSortChange={event => handleSortChange(event.target.value as SortOrder)}
           />

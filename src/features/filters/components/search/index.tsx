@@ -10,7 +10,7 @@ import '../../../../index.scss';
 const Search: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isOpened, setIsOpened] = useState(false);
+  const [isSortOpened, setisSortOpened] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
   // Extract search query from URL params
@@ -33,7 +33,7 @@ const Search: React.FC = () => {
     queryParams.delete('search');
     navigate(`?${queryParams.toString()}`, { replace: true });
 
-    setIsOpened(!isOpened);
+    setisSortOpened(!isSortOpened);
     setExpanded(false);
   };
 
@@ -69,9 +69,9 @@ const Search: React.FC = () => {
       />
 
       <SortedModal
-        isOpened={isOpened}
+        isSortOpened={isSortOpened}
         expanded={expanded}
-        setIsOpened={setIsOpened}
+        setisSortOpened={setisSortOpened}
         setExpanded={setExpanded}
         handleClear={handleClear}
       />

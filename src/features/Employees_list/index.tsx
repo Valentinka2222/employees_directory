@@ -44,21 +44,14 @@ const EmployeesList: React.FC = () => {
     setSortOrder(sortQuery);
   }, [location.search]);
 
-  // Update URL with query parameters
-  const updateUrlParams = useCallback(() => {
-    const queryParams = new URLSearchParams(location.search);
-    queryParams.set('search', searchTerm);
-    queryParams.set('tab', currentTab);
-    queryParams.set('sortOrder', sortOrder);
-    navigate(`?${queryParams.toString()}`, { replace: true });
-  }, [searchTerm, currentTab, sortOrder, location.search, navigate]);
-
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: keyof typeof tab_names) => {
       setCurrentTab(newValue);
-      updateUrlParams();
+      const queryParams = new URLSearchParams(location.search);
+      queryParams.set('tab', newValue);
+      navigate(`?${queryParams.toString()}`, { replace: true });
     },
-    [updateUrlParams],
+    [navigate, location.search],
   );
 
   const filterAndSortWorkers = (

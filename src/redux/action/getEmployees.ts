@@ -1,20 +1,16 @@
 import { Dispatch } from 'redux';
-import { getAllEmployeers } from '../../entities/Employees/gateways/index';
-import {
-  FETCH_EMPLOYEES_REQUEST,
-  FETCH_EMPLOYEES_SUCCESS,
-  FETCH_EMPLOYEES_FAILURE,
-} from './employeesTypes';
+import { getAllEmployees } from '../../entities/Employees/gateways/index';
+import { EMPLOYEES, EMPLOYEES_SUCCESS, EMPLOYEES_FAILURE } from './employeesTypes';
 
 export const fetchEmployeers = () => {
   return async (dispatch: Dispatch) => {
-    dispatch({ type: FETCH_EMPLOYEES_REQUEST });
+    dispatch({ type: EMPLOYEES });
 
     try {
-      const data = await getAllEmployeers();
-      dispatch({ type: FETCH_EMPLOYEES_SUCCESS, payload: data });
+      const data = await getAllEmployees();
+      dispatch({ type: EMPLOYEES_SUCCESS, payload: data });
     } catch (error: any) {
-      dispatch({ type: FETCH_EMPLOYEES_FAILURE, payload: error.message });
+      dispatch({ type: EMPLOYEES_FAILURE, payload: error.message });
     }
   };
 };

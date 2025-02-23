@@ -11,7 +11,7 @@ const Search: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isSortOpened, setisSortOpened] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [isExpanded, setExpanded] = useState(false);
 
   // Extract search query from URL params
   const queryParams = new URLSearchParams(location.search);
@@ -70,7 +70,7 @@ const Search: React.FC = () => {
 
       <SortedModal
         isSortOpened={isSortOpened}
-        expanded={expanded}
+        isExpanded={isExpanded}
         setisSortOpened={setisSortOpened}
         setExpanded={setExpanded}
         handleClear={handleClear}

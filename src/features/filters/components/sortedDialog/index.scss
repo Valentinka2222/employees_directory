@@ -16,10 +16,12 @@
 .formControlLabelMargin {
   height: 60px;
 }
+
 .modalTitle {
   display: flex;
   margin-right: 79px;
 }
+
 .modal-content {
   position: absolute;
   display: flex;
@@ -48,11 +50,13 @@
     max-width: 100%;
     font-size: 16px;
   }
+
   & h2 {
     display: flex;
     width: 100%;
     justify-content: flex-end;
   }
+
   &__divider {
     width: 134px;
     height: 5px;

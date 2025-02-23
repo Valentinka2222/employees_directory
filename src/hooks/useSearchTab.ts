@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { tab_names } from '../features/filters/components/PositionTabs/config/index';
 
 interface UseSearchTabProps {
@@ -9,41 +9,46 @@ interface UseSearchTabProps {
 }
 
 const useSearchTab = ({ setSearchTerm, setCurrentTab, currentTab }: UseSearchTabProps) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const isInitialMount = useRef(true);
 
   const updateUrlParams = useCallback(() => {
-    const searchParams = new URLSearchParams(location.search);
-
-    searchParams.set('tab', currentTab);
-
-    const newSearch = `?${searchParams.toString()}`;
-
-    if (location.search !== newSearch) navigate({ search: newSearch }, { replace: true });
-  }, [currentTab, location.search, navigate]);
+    setSearchParams(
+      prev => {
+        const params = new URLSearchParams(prev);
+        params.set('tab', currentTab);
+        return params;
+      },
+      { replace: true },
+    );
+  }, [currentTab, setSearchParams]);
 
   useEffect(() => {
     if (isInitialMount.current) {
-      const searchParams = new URLSearchParams(location.search);
-
       const searchFromUrl = searchParams.get('search') || '';
       setSearchTerm(searchFromUrl);
 
       const tabFromUrl = searchParams.get('tab') as keyof typeof tab_names;
-      const validTab = tabFromUrl && tab_names[tabFromUrl] ? tabFromUrl : 'All';
+      const validTab = tabFromUrl && tab_names[tabFromUrl] ? tabFromUrl : 'all';
       if (currentTab !== validTab) setCurrentTab(validTab);
 
       if (!tabFromUrl || !searchParams.get('tab')) {
-        searchParams.set('tab', validTab);
-        if (searchFromUrl) searchParams.set('search', searchFromUrl);
-
-        navigate({ search: searchParams.toString() }, { replace: true });
+        setSearchParams(
+          prev => {
+            const params = new URLSearchParams(prev);
+            params.set('tab', validTab);
+            if (searchFromUrl) params.set('search', searchFromUrl);
+            return params;
+          },
+          { replace: true },
+        );
       }
 
       isInitialMount.current = false;
-    } else updateUrlParams();
-  }, [currentTab, location.search, navigate, setSearchTerm, setCurrentTab, updateUrlParams]);
+    } else {
+      updateUrlParams();
+    }
+  }, [currentTab, searchParams, setSearchTerm, setCurrentTab, setSearchParams, updateUrlParams]);
 
   return { updateUrlParams };
 };

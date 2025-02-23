@@ -7,11 +7,11 @@ import type { SortOrder } from '../../../../../entities/Employees/types/index';
 
 import '../index.scss';
 
-interface ModalInnerProps {
+type ModalInnerProps = {
   handleClose: () => void;
   sortOrder: SortOrder;
   handleSortChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 const ModalInner: React.FC<ModalInnerProps> = ({ handleClose, handleSortChange }) => {
   const location = useLocation();

@@ -18,14 +18,10 @@ export type Employer = {
   birthDate: string;
   phone: string;
 };
+
 export type EmployeesList = {
   sortOrder: SortOrder;
   searchTerm: string;
   setSortOrder: React.Dispatch<React.SetStateAction<SortOrder>>;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 };
-export interface EmployeesListProps {
-  sortOrder: SortOrder;
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
-}

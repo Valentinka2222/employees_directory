@@ -13,6 +13,7 @@
       border: none;
       background: transparent;
       cursor: pointer;
+
       img {
         height: 24px;
       }
@@ -29,6 +30,7 @@
     .MuiStack-root {
       margin: 0;
     }
+
     .MuiAvatar-root {
       margin-bottom: 24px;
       height: 104px;
@@ -127,6 +129,7 @@
       &-position {
         font-size: 0.875rem;
       }
+
       &-birthday {
         margin-left: auto !important;
         color: black !important;

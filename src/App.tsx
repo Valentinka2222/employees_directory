@@ -11,7 +11,7 @@ import EmployeesDetails from './features/Employees_list/components/Employees_det
 
 import './index.scss';
 
-export default function App() {
+const App = () => {
   const location = useLocation();
 
   const shouldDisplayHeader = location.pathname === '/';
@@ -44,4 +44,6 @@ export default function App() {
       </StyledThemeProvider>
     </MuiThemeProvider>
   );
-}
+};
+
+export default App;

@@ -9,7 +9,7 @@ import moment from 'moment';
 import { fetchWorkersAction } from '../../redux/reducer/employeersReducer';
 import { RootState, AppDispatch } from '../../redux/store/store';
 import { tab_names } from '../filters/components/PositionTabs/config/index';
-import type { SortOrder, Employer, Employees } from '../../entities/Employees/types/index';
+import type { SortOrder, Employer, Employees } from './types';
 import UnexpectedError from '../errors/components/UnexpectedError';
 import ErrorNotFound from '../errors/components/NotFound';
 import TabComponent from '../filters/components/PositionTabs';
@@ -22,7 +22,7 @@ const EmployeesList: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('All');
+  const [currentTab, setCurrentTab] = useState<keyof typeof tab_names>('all');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<SortOrder>('birthDate');
 
@@ -36,7 +36,7 @@ const EmployeesList: React.FC = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const searchQuery = queryParams.get('search') || '';
-    const tabQuery = (queryParams.get('tab') || 'All') as keyof typeof tab_names;
+    const tabQuery = (queryParams.get('tab') || 'all') as keyof typeof tab_names;
     const sortQuery = (queryParams.get('sortOrder') || 'birthDate') as SortOrder;
 
     setSearchTerm(searchQuery);
@@ -45,7 +45,7 @@ const EmployeesList: React.FC = () => {
 
     // Ensure workers are fetched again when search or tab changes
     dispatch(fetchWorkersAction());
-  }, [location.search, dispatch]); // Make sure to add `dispatch` as a dependency if it's used inside the effect
+  }, [location.search, dispatch]);
 
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: keyof typeof tab_names) => {
@@ -62,19 +62,17 @@ const EmployeesList: React.FC = () => {
     searchTerm: string,
     currentTab: keyof typeof tab_names,
   ): Employees => {
-    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    const lowercasedSearchTerm = searchTerm;
     const filteredBySearchTerm = employees.filter((employee: Employer) => {
-      const nameMatch = employee.name?.toLowerCase().includes(lowercasedSearchTerm);
-      const emailMatch = employee.email?.toLowerCase().includes(lowercasedSearchTerm);
-      const tagMatch = employee.tag?.toLowerCase().includes(lowercasedSearchTerm);
+      const nameMatch = employee.name?.includes(lowercasedSearchTerm);
+      const emailMatch = employee.email?.includes(lowercasedSearchTerm);
+      const tagMatch = employee.tag?.includes(lowercasedSearchTerm);
 
       return nameMatch || emailMatch || tagMatch;
     });
 
     return filteredBySearchTerm.filter(
-      (employee: Employer) =>
-        currentTab === 'All' ||
-        employee.position?.toLowerCase() === tab_names[currentTab]?.toLowerCase(),
+      (employee: Employer) => currentTab === 'all' || employee.position === tab_names[currentTab],
     );
   };
 
@@ -91,7 +89,10 @@ const EmployeesList: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box className="workers-list-container">
-        <Box className="worker-tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box
+          className="worker-tabs"
+          sx={{ textTransform: 'capitalize', borderBottom: 1, borderColor: 'divider' }}
+        >
           <TabComponent
             currentTab={currentTab}
             handleTabChange={handleTabChange}

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getAllEmployeers } from '../../entities/Employees/gateways/index';
+import { getAllEmployees } from '../../entities/Employees/gateways/index';
 import { Employees, EmployeesState } from '../../entities/Employees/types/index';
 
 const initialState: EmployeesState = {
@@ -12,7 +12,7 @@ export const fetchWorkersAction = createAsyncThunk<Employees, void, { rejectValu
   'workers/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      const data = await getAllEmployeers();
+      const data = await getAllEmployees();
       return data;
     } catch (error) {
       return rejectWithValue(

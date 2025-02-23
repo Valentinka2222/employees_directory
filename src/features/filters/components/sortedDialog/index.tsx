@@ -2,34 +2,15 @@ import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Divider, Collapse, useMediaQuery, Modal } from '@mui/material';
 import type { SortOrder } from '../../../../entities/Employees/types/index';
-import styled from 'styled-components';
 import ModalInner from './sortedInner';
+import type { SortedModalProps } from './types';
 
+import StyledModalContent from './index.style';
 import './index.scss';
-
-type SortedModalProps = {
-  isSortOpened: boolean;
-  expanded: boolean;
-  setisSortOpened: (isSortOpened: boolean) => void;
-  setExpanded: (expanded: boolean) => void;
-  handleClear: () => void;
-};
-
-const StyledModalContent = styled.div<{ expanded: boolean; isMobile: boolean }>`
-  background-color: ${({ theme }) => theme.palette.background.paper};
-  box-shadow: ${({ theme }) => theme.shadows[5]};
-  transition: height 0.3s ease-in-out;
-
-  height: ${({ expanded, isMobile }) => (isMobile ? (expanded ? '192px' : '34px') : '218px')};
-
-  @media (max-width: 375px) {
-    padding: ${({ expanded }) => (expanded ? '8px 16px' : '9px')};
-  }
-`;
 
 const SortedModal: React.FC<SortedModalProps> = ({
   isSortOpened,
-  expanded,
+  isExpanded,
   setisSortOpened,
   setExpanded,
   handleClear,
@@ -53,7 +34,7 @@ const SortedModal: React.FC<SortedModalProps> = ({
     navigate(`${location.pathname}?${searchParams.toString()}`, { replace: true });
   };
 
-  const toggleExpand = () => setExpanded(!expanded);
+  const toggleExpand = () => setExpanded(!isExpanded);
 
   return (
     <Modal
@@ -64,14 +45,14 @@ const SortedModal: React.FC<SortedModalProps> = ({
       }}
     >
       <StyledModalContent
-        expanded={expanded}
+        isExpanded={isExpanded}
         isMobile={isMobile}
         onClick={toggleExpand}
         className="modal-content"
       >
         {isMobile ? (
           <>
-            <Collapse in={expanded}>
+            <Collapse in={isExpanded}>
               <Divider className="modal-content__inner-divider" />
               <ModalInner
                 handleClose={() => setExpanded(false)}
